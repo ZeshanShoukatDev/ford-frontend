@@ -1,528 +1,185 @@
+<script setup>
+import { ref } from "vue";
+import { MapPin, ChevronDown, Phone, Clock } from "lucide-vue-next";
+
+const dealers = [
+  {
+    name: "Empire Ford Lincoln",
+    address: "106 Old Jonesboro Rd.",
+    city: "Abingdon",
+    state: "VA",
+    zip: "24210",
+    phone: "(213) 555-0123",
+    hours: "9:00 AM - 8:00 PM",
+    coords: [34.0522, -118.2437],
+  },
+  {
+    name: "Ford of Elizabethton",
+    address: "2224 West Elk Avenue",
+    city: "Elizabethton",
+    state: "TN",
+    zip: "37643",
+    phone: "(310) 555-0124",
+    hours: "8:00 AM - 7:00 PM",
+    coords: [34.0814, -118.4125],
+  },
+  {
+    name: "Freedom Ford of Wise",
+    address: "151 Woodland Dr.",
+    city: "Wise",
+    state: "VA",
+    zip: "24293",
+    phone: "(310) 555-0125",
+    hours: "9:00 AM - 6:00 PM",
+    coords: [34.0617, -118.3049],
+  },
+  {
+    name: "Friendship Ford",
+    address: "3192 West State Street",
+    city: "Bristol",
+    state: "TN",
+    zip: "37620",
+    phone: "(310) 555-0126",
+    hours: "8:30 AM - 7:30 PM",
+    coords: [34.0901, -118.3884],
+  },
+  {
+    name: "Gateway Ford Lincoln",
+    address: "1055 W Andrew Johnson Hwy",
+    city: "Greeneville",
+    state: "TN",
+    zip: "37745",
+    phone: "(213) 555-0127",
+    hours: "9:00 AM - 8:00 PM",
+    coords: [34.0458, -118.2578],
+  },
+  {
+    name: "Johnson City Ford",
+    address: "3519 Bristol Hwy",
+    city: "Johnson City",
+    state: "TN",
+    zip: "37601",
+    phone: "(310) 555-0128",
+    hours: "8:00 AM - 7:00 PM",
+    coords: [34.0736, -118.4003],
+  },
+  {
+    name: "Morgan-McClure Ford, Inc.",
+    address: "16600 Riverside Dr.",
+    city: "Saint Paul",
+    state: "VA",
+    zip: "24283",
+    phone: "(310) 555-0129",
+    hours: "9:00 AM - 6:00 PM",
+    coords: [34.0762, -118.3799],
+  },
+  {
+    name: "Wallace Ford of Kingsport",
+    address: "2761 East Stone Drive",
+    city: "Kingsport",
+    state: "TN",
+    zip: "37660",
+    phone: "(818) 555-0130",
+    hours: "8:30 AM - 7:30 PM",
+    coords: [34.1478, -118.2573],
+  },
+];
+
+const openDealer = ref(null);
+
+const toggleDealer = (dealerName) => {
+  if (openDealer.value === dealerName) {
+    openDealer.value = null;
+  } else {
+    openDealer.value = dealerName;
+  }
+};
+
+const props = defineProps({
+  isDarkMode: {
+    type: Boolean,
+    required: true,
+  },
+});
+</script>
+
 <template>
-  <div class="grid md:grid-cols-2 gap-6">
-    <div class="w-full" data-orientation="vertical">
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:R9cijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R1cijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">Downtown Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:R9cijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R1cijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:Racijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R2cijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">Santa Monica Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:Racijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R2cijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:Rbcijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R3cijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">Beverly Hills Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:Rbcijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R3cijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:Rccijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R4cijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">West LA Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:Rccijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R4cijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-    </div>
-    <div class="w-full" data-orientation="vertical">
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:R9kijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R1kijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">USC Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:R9kijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R1kijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:Rakijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R2kijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">Brentwood Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:Rakijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R2kijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:Rbkijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R3kijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">Century City Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:Rbkijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R3kijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
-      </div>
-      <div data-state="closed" data-orientation="vertical" class="border-b">
-        <h3 data-orientation="vertical" data-state="closed" class="flex">
-          <button
-            type="button"
-            aria-controls="radix-:Rckijsq:"
-            aria-expanded="false"
-            data-state="closed"
-            data-orientation="vertical"
-            id="radix-:R4kijsq:"
-            class="flex flex-1 items-center justify-between py-4 font-medium transition-all [&amp;[data-state=open]>svg]:rotate-180 hover:no-underline"
-            data-radix-collection-item=""
-          >
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-map-pin h-4 w-4 text-blue-600"
-              >
-                <path
-                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                ></path>
-                <circle cx="12" cy="10" r="3"></circle></svg
-              ><span class="font-semibold">Glendale Ford</span>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </h3>
-        <div
-          data-state="closed"
-          id="radix-:Rckijsq:"
-          hidden=""
-          role="region"
-          aria-labelledby="radix-:R4kijsq:"
-          data-orientation="vertical"
-          class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-          style="
-            --radix-accordion-content-height: var(
-              --radix-collapsible-content-height
-            );
-            --radix-accordion-content-width: var(
-              --radix-collapsible-content-width
-            );
-          "
-        ></div>
+  <div
+    class="grid md:grid-cols-2 gap-6 p-6"
+    :class="{
+      'bg-gray-900 text-white': isDarkMode,
+      'bg-white text-gray-900': !isDarkMode,
+    }"
+  >
+    <div
+      v-for="dealer in dealers"
+      :key="dealer.name"
+      class="border-b relative"
+      :class="{
+        'border-gray-700': isDarkMode,
+        'border-gray-200': !isDarkMode,
+      }"
+    >
+      <h3>
+        <button
+          @click="toggleDealer(dealer.name)"
+          class="flex items-center justify-between w-full py-4 text-left transition-colors duration-200"
+          :class="{
+            'hover:bg-gray-800 text-white': isDarkMode,
+            'hover:bg-gray-50 text-gray-900': !isDarkMode,
+          }"
+        >
+          <div class="flex items-center gap-2">
+            <MapPin
+              class="h-5 w-5"
+              :class="isDarkMode ? 'text-blue-300' : 'text-blue-600'"
+            />
+            <span class="font-semibold">{{ dealer.name }}</span>
+          </div>
+          <ChevronDown
+            class="h-5 w-5 transition-transform duration-200"
+            :class="{
+              'rotate-180': openDealer === dealer.name,
+              'text-gray-400': isDarkMode,
+              'text-gray-500': !isDarkMode,
+            }"
+          />
+        </button>
+      </h3>
+      <div
+        v-if="openDealer === dealer.name"
+        class="absolute left-0 right-0 shadow-md z-10 mt-1 p-4 rounded-md"
+        :class="{
+          'bg-gray-800 border-gray-700 text-white': isDarkMode,
+          'bg-white border-gray-200 text-gray-900': !isDarkMode,
+        }"
+      >
+        <p>{{ dealer.address }}</p>
+        <p>{{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
+        <div class="flex items-center gap-2 mt-2">
+          <Phone class="h-4 w-4" />
+          <span>{{ dealer.phone }}</span>
+        </div>
+        <div class="flex items-center gap-2 mt-1">
+          <Clock class="h-4 w-4" />
+          <span>{{ dealer.hours }}</span>
+        </div>
       </div>
     </div>
   </div>
+  <div
+    class="mt-12 border-t pt-4 text-center text-sm"
+    :class="isDarkMode ? 'text-white' : 'text-gray-600'"
+  >
+    <p>
+      &copy; {{ new Date().getFullYear() }} Ford Dealership. All rights
+      reserved.
+    </p>
+  </div>
 </template>
+
+<style scoped>
+.grid > div {
+  min-height: 60px;
+}
+</style>

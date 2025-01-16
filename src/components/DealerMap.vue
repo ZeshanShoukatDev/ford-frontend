@@ -57,7 +57,7 @@
       <div id="map" class="w-full h-full"></div>
     </div>
 
-    <div v-if="nearestDealer" class="mt-4 p-4 bg-blue-100 rounded-lg">
+    <div v-if="nearestDealer" class="mt-4 p-4 text-center rounded-lg">
       <h3 class="text-lg font-semibold">Nearest Dealership:</h3>
       <p>{{ nearestDealer.name }}</p>
       <p>

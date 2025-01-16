@@ -61,8 +61,10 @@ const prevSlide = () => {
               class="absolute inset-0 p-6 text-white flex items-center justify-center md:bottom-0 md:left-0 md:flex md:items-end md:justify-start"
             >
               <div>
-                <h2 class="text-4xl font-bold mb-2">{{ slide.title }}</h2>
-                <p class="text-xl">{{ slide.subtitle }}</p>
+                <h2 class="text-2xl sm:text-4xl font-bold mb-2">
+                  {{ slide.title }}
+                </h2>
+                <p class="text-base sm:text-xl">{{ slide.subtitle }}</p>
               </div>
             </div>
           </div>

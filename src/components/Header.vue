@@ -1,7 +1,8 @@
 <script setup>
 import { defineProps } from "vue";
+import { Moon, Sun } from "lucide-vue-next";
 
-const { toggleDarkMode, isDarkMode } = defineProps({
+const props = defineProps({
   toggleDarkMode: {
     type: Function,
     required: true,
@@ -14,7 +15,10 @@ const { toggleDarkMode, isDarkMode } = defineProps({
 </script>
 
 <template>
-  <header class="w-full border-b">
+  <header
+    class="w-full border-b"
+    :class="{ 'dark:border-gray-700': isDarkMode }"
+  >
     <div class="container flex h-16 items-center justify-between px-4">
       <router-link to="/" class="flex items-center space-x-3">
         <div class="relative w-[40px] h-[40px]">
@@ -32,13 +36,16 @@ const { toggleDarkMode, isDarkMode } = defineProps({
         </div>
       </router-link>
 
-      <!-- Dark mode toggle button -->
+      <!-- Dark mode toggle button with text -->
       <button
         @click="toggleDarkMode"
-        class="p-2 rounded-full text-gray-600 dark:text-gray-300"
+        class="flex items-center space-x-2 p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
       >
-        <i v-if="!isDarkMode" class="fas fa-moon"></i>
-        <i v-else class="fas fa-sun"></i>
+        <Moon v-if="!isDarkMode" class="h-5 w-5" />
+        <Sun v-else class="h-5 w-5" />
+        <span class="text-sm">
+          {{ isDarkMode ? "Switch to Light" : "Switch to Dark" }}
+        </span>
       </button>
     </div>
   </header>

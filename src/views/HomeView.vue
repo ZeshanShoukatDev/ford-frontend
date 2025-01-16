@@ -27,11 +27,12 @@
         </div>
       </section>
 
-      <!-- Vehicle Grid - Only shown when a model is selected -->
       <section v-if="selectedModel">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-2xl font-bold">{{ selectedModel }} Inventory</h2>
-          <Button variant="ghost" @click="closeModel">Close</Button>
+          <Button variant="ghost" @click="closeModel">
+            <X class="h-5 w-5" />
+          </Button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <VehicleCard
@@ -51,7 +52,7 @@
       </section>
 
       <section>
-        <Footer />
+        <Footer :isDarkMode="isDarkMode" />
       </section>
     </main>
   </div>
@@ -65,7 +66,7 @@ import ModelCard from "@/components/ModelCard.vue";
 import VehicleCard from "@/components/VehicleCard.vue";
 import DealerMap from "@/components/DealerMap.vue";
 import Footer from "@/components/Footer.vue";
-// import Button from "@/components/ui/Button.vue";
+import { X } from "lucide-vue-next";
 
 const isDarkMode = ref(false);
 
