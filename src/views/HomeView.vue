@@ -217,7 +217,9 @@ const inventory = computed(() => {
 });
 
 const selectModel = (model) => {
-  selectedModel.value = model;
+  setTimeout(() => {
+    selectedModel.value = model;
+  }, 1000);
 };
 
 const closeModel = () => {
