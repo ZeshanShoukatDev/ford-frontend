@@ -13,15 +13,17 @@
       </section>
 
       <!-- Model Categories -->
-      <section>
+      <section class="perspective-1000">
         <h2 class="text-2xl font-bold mb-6 text-center">Explore Models</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 px-2">
           <ModelCard
             v-for="model in models"
             :key="model.name"
             :name="model.name"
             :imageUrl="model.imageUrl"
             :isDarkMode="isDarkMode"
+            :isSelected="selectedModel === model.name"
+            :isHovered="isHovered"
             @select="selectModel(model.name)"
           />
         </div>
@@ -230,3 +232,9 @@ const toggleDarkMode = () => {
   }
 };
 </script>
+
+<style scoped>
+.perspective-1000 {
+  perspective: 1000px;
+}
+</style>
