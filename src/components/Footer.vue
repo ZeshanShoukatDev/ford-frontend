@@ -1,38 +1,96 @@
+<template>
+  <footer
+    class="p-4 overflow-x-auto"
+    :class="{
+      'bg-gray-900 text-white': isDarkMode,
+      'bg-white text-gray-900': !isDarkMode,
+    }"
+  >
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <div
+        v-for="dealer in dealers"
+        :key="dealer.name"
+        class="flex-shrink-0 w-full px-4"
+        :class="{
+          'border-gray-700': isDarkMode,
+          'border-gray-200': !isDarkMode,
+        }"
+      >
+        <h2 class="font-bold text-lg mb-2">{{ dealer.name }}</h2>
+        <p class="text-sm mb-2">
+          <div class="ml-2">
+            {{ dealer.address }}<br />
+          {{ dealer.city }}, {{ dealer.state }} <br />
+
+          {{ dealer.zip }}
+          </div>
+
+          <div class="mt-2">
+            <span class="flex items-center">
+            <i class="fas fa-phone-alt mr-2"></i>
+            {{ dealer.phone }}
+          </span>
+          <span class="flex items-center">
+            <i class="fas fa-clock mr-2"></i>
+            {{ dealer.time }}
+          </span>
+          </div>
+        </p>
+        <button
+          class="w-2/3 mt-2 px-4 py-2 rounded transition-colors duration-200 text-sm border"
+          :class="{
+            'bg-gray-900 text-white border-blue-500 hover:bg-blue-700':
+              isDarkMode,
+            'bg-white text-black border-blue-500 hover:bg-blue-600':
+              !isDarkMode,
+          }"
+        >
+          Directions
+        </button>
+      </div>
+    </div>
+    <div
+      class="mt-20 border-t pt-4 text-center text-sm"
+      :class="isDarkMode ? 'text-white' : 'text-gray-600'"
+    >
+      <p>
+        &copy; {{ new Date().getFullYear() }} Ford Dealership. All rights
+        reserved.
+      </p>
+    </div>
+  </footer>
+</template>
+
 <script setup>
 import { ref } from "vue";
-import { MapPin, ChevronDown, Phone, Clock } from "lucide-vue-next";
 
-// All dealers
-const dealers = [
+const dealers = ref([
   {
-    name: "DownTown Ford",
-    address: "123 Main Street",
-    city: "Los Angeles",
-    state: "CA",
-    zip: "90012",
+    name: "Empire Ford Lincoln",
+    address: "106 Old Jonesboro Rd.",
+    city: "Abingdon",
+    state: "VA",
+    zip: "24210",
     phone: "(213) 555-0123",
-    hours: "9:00 AM - 8:00 PM",
-    coords: [34.0522, -118.2437],
+    time: "9:00 AM - 8:00 PM",
   },
   {
-    name: "Beverly Hills Ford",
-    address: "789 Beverly Drive",
-    city: "Beverly Hills",
-    state: "CA",
-    zip: "90210",
+    name: "Ford of Elizabethton",
+    address: "2224 West Elk Avenue",
+    city: "Elizabethton",
+    state: "TN",
+    zip: "37643",
     phone: "(310) 555-0124",
-    hours: "8:00 AM - 7:00 PM",
-    coords: [34.0814, -118.4125],
+    time: "8:00 AM - 7:00 PM",
   },
   {
-    name: "321 Westwood Blvd",
-    address: "321 Westwood Blvd",
-    city: "Los Angeles",
-    state: "CA",
-    zip: "90024",
+    name: "Freedom Ford of Wise",
+    address: "151 Woodland Dr.",
+    city: "Wise",
+    state: "VA",
+    zip: "24293",
     phone: "(310) 555-0125",
-    hours: "9:00 AM - 6:00 PM",
-    coords: [34.0617, -118.3049],
+    time: "9:00 AM - 6:00 PM",
   },
   {
     name: "Friendship Ford",
@@ -41,65 +99,47 @@ const dealers = [
     state: "TN",
     zip: "37620",
     phone: "(310) 555-0126",
-    hours: "8:30 AM - 7:30 PM",
-    coords: [34.0901, -118.3884],
+    time: "8:30 AM - 7:30 PM",
   },
   {
-    name: "USC Ford",
-    address: "654 Figueroa Street",
-    city: "Los Angeles",
-    state: "CA",
-    zip: "90007",
+    name: "Gateway Ford Lincoln",
+    address: "1055 W Andrew Johnson Hwy",
+    city: "Greeneville",
+    state: "TN",
+    zip: "37745",
     phone: "(213) 555-0127",
-    hours: "9:00 AM - 8:00 PM",
-    coords: [34.0458, -118.2578],
+    time: "8:30 AM - 7:30 PM",
   },
   {
-    name: "Brentwood Ford",
-    address: "987 San Vicente Blvd",
-    city: "Los Angeles",
-    state: "CA",
-    zip: "90049",
-    phone: "(310) 555-0128",
-    hours: "8:00 AM - 7:00 PM",
-    coords: [34.0736, -118.4003],
+    name: "Johnson City Ford",
+    address: "3519 Bristol Hwy",
+    city: "Johnson City",
+    state: "TN",
+    zip: "37601",
+    phone: "(213) 555-0127",
+    time: "8:30 AM - 7:30 PM",
   },
   {
-    name: "Century City Ford",
-    address: "246 Century Park West",
-    city: "Los Angeles",
-    state: "CA",
-    zip: "90067",
-    phone: "(310) 555-0129",
-    hours: "9:00 AM - 6:00 PM",
-    coords: [34.0762, -118.3799],
+    name: "Morgan-McClure Ford, Inc.",
+    address: "16600 Riverside Dr.",
+    city: "Saint Paul",
+    state: "VA",
+    zip: "24283",
+    phone: "(213) 555-0127",
+    time: "8:30 AM - 7:30 PM",
   },
   {
-    name: "Glendale Fort",
-    address: "135 Brand Blvd",
-    city: "Glendale",
-    state: "CA",
-    zip: "91204",
-    phone: "(818) 555-0130",
-    hours: "8:30 AM - 7:30 PM",
-    coords: [34.1478, -118.2573],
+    name: "Wallace Ford of Kingsport",
+    address: "2761 East Stone Drive",
+    city: "Kingsport",
+    state: "TN",
+    zip: "37660",
+    phone: "(213) 555-0127",
+    time: "8:30 AM - 7:30 PM",
   },
-];
+]);
 
-// Split dealers into two halves for left and right columns
-const leftDealers = dealers.slice(0, Math.ceil(dealers.length / 2));
-const rightDealers = dealers.slice(Math.ceil(dealers.length / 2));
-
-const openDealer = ref(null);
-const toggleDealer = (dealerName) => {
-  if (openDealer.value === dealerName) {
-    openDealer.value = null;
-  } else {
-    openDealer.value = dealerName;
-  }
-};
-
-const props = defineProps({
+defineProps({
   isDarkMode: {
     type: Boolean,
     required: true,
@@ -107,165 +147,7 @@ const props = defineProps({
 });
 </script>
 
-<template>
-  <div
-    class="grid grid-cols-2 gap-6 p-6"
-    :class="{
-      'bg-gray-900 text-white': isDarkMode,
-      'bg-white text-gray-900': !isDarkMode,
-    }"
-  >
-    <!-- Left Column (First half of dealers) -->
-    <div class="flex flex-col space-y-4">
-      <div
-        v-for="dealer in leftDealers"
-        :key="dealer.name"
-        class="border-b relative"
-        :class="{
-          'border-gray-700': isDarkMode,
-          'border-gray-200': !isDarkMode,
-        }"
-      >
-        <h3>
-          <button
-            @click="toggleDealer(dealer.name)"
-            class="flex items-center justify-between w-full py-4 text-left transition-colors duration-200"
-            :class="{
-              'hover:bg-gray-800 text-white': isDarkMode,
-              'hover:bg-gray-50 text-gray-900': !isDarkMode,
-            }"
-          >
-            <div class="flex items-center gap-2">
-              <MapPin
-                class="h-5 w-5"
-                :class="isDarkMode ? 'text-blue-300' : 'text-blue-600'"
-              />
-              <span class="font-semibold">{{ dealer.name }}</span>
-            </div>
-            <ChevronDown
-              class="h-5 w-5 transition-transform duration-200"
-              :class="{
-                'rotate-180': openDealer === dealer.name,
-                'text-gray-400': isDarkMode,
-                'text-gray-500': !isDarkMode,
-              }"
-            />
-          </button>
-        </h3>
-        <div
-          v-if="openDealer === dealer.name"
-          class="mt-1 p-4 rounded-md shadow-md"
-          :class="{
-            'bg-gray-800 border-gray-700 text-white': isDarkMode,
-            'bg-white border-gray-200 text-gray-900': !isDarkMode,
-          }"
-        >
-          <p>{{ dealer.address }}</p>
-          <p>{{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
-          <div class="flex items-center gap-2 mt-2">
-            <Phone class="h-4 w-4" />
-            <span>{{ dealer.phone }}</span>
-          </div>
-          <div class="flex items-center gap-2 mt-1">
-            <Clock class="h-4 w-4" />
-            <span>{{ dealer.hours }}</span>
-          </div>
-          <button
-            class="w-full py-2 mt-2 font-semibold rounded-lg"
-            :class="{
-              'bg-gray-800 border-gray-700 text-white': !isDarkMode,
-              'bg-white border-gray-200 text-gray-900': isDarkMode,
-            }"
-          >
-            Get Directions
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right Column (Second half of dealers) -->
-    <div class="flex flex-col space-y-4">
-      <div
-        v-for="dealer in rightDealers"
-        :key="dealer.name"
-        class="border-b relative"
-        :class="{
-          'border-gray-700': isDarkMode,
-          'border-gray-200': !isDarkMode,
-        }"
-      >
-        <h3>
-          <button
-            @click="toggleDealer(dealer.name)"
-            class="flex items-center justify-between w-full py-4 text-left transition-colors duration-200"
-            :class="{
-              'hover:bg-gray-800 text-white': isDarkMode,
-              'hover:bg-gray-50 text-gray-900': !isDarkMode,
-            }"
-          >
-            <div class="flex items-center gap-2">
-              <MapPin
-                class="h-5 w-5"
-                :class="isDarkMode ? 'text-blue-300' : 'text-blue-600'"
-              />
-              <span class="font-semibold">{{ dealer.name }}</span>
-            </div>
-            <ChevronDown
-              class="h-5 w-5 transition-transform duration-200"
-              :class="{
-                'rotate-180': openDealer === dealer.name,
-                'text-gray-400': isDarkMode,
-                'text-gray-500': !isDarkMode,
-              }"
-            />
-          </button>
-        </h3>
-        <div
-          v-if="openDealer === dealer.name"
-          class="mt-1 p-4 rounded-md shadow-md"
-          :class="{
-            'bg-gray-800 border-gray-700 text-white': isDarkMode,
-            'bg-white border-gray-200 text-gray-900': !isDarkMode,
-          }"
-        >
-          <p>{{ dealer.address }}</p>
-          <p>{{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
-          <div class="flex items-center gap-2 mt-2">
-            <Phone class="h-4 w-4" />
-            <span>{{ dealer.phone }}</span>
-          </div>
-          <div class="flex items-center gap-2 mt-1">
-            <Clock class="h-4 w-4" />
-            <span>{{ dealer.hours }}</span>
-          </div>
-          <button
-            class="w-full py-2 mt-2 font-semibold rounded-lg"
-            :class="{
-              'bg-gray-800 border-gray-700 text-white': !isDarkMode,
-              'bg-white border-gray-200 text-gray-900': isDarkMode,
-            }"
-          >
-            Get Directions
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <div
-    class="mt-20 border-t pt-4 text-center text-sm"
-    :class="isDarkMode ? 'text-white' : 'text-gray-600'"
-  >
-    <p>
-      &copy; {{ new Date().getFullYear() }} Ford Dealership. All rights
-      reserved.
-    </p>
-  </div>
-</template>
-
-<style scoped>
-.grid > div {
-  min-height: 60px;
-}
+<style>
+/* Add Font Awesome for icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 </style>
