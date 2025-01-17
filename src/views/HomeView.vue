@@ -6,7 +6,7 @@
     }"
     class="min-h-screen"
   >
-    <Header :toggleDarkMode="toggleDarkMode" />
+    <Header :toggleDarkMode="toggleDarkMode" :isDarkMode="isDarkMode" />
     <main class="w-full px-4 py-8 space-y-12">
       <section>
         <HeroSlider />

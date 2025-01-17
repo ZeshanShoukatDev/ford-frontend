@@ -17,7 +17,7 @@ const props = defineProps({
 <template>
   <header
     class="w-full border-b"
-    :class="{ 'dark:border-gray-700': isDarkMode }"
+    :class="{ 'dark:border-gray-700': props.isDarkMode }"
   >
     <div class="container flex h-16 items-center justify-between px-4">
       <router-link to="/" class="flex items-center space-x-3">
@@ -39,7 +39,7 @@ const props = defineProps({
       <!-- Dark mode toggle button with text -->
       <button
         @click="toggleDarkMode"
-        class="flex items-center space-x-2 p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+        class="flex items-center space-x-2 p-2 rounded-full text-black hover:bg-black hover:text-white dark:text-gray-400 dark:hover:bg-white dark:hover:text-black transition-colors duration-200"
       >
         <Moon v-if="!isDarkMode" class="h-5 w-5" />
         <Sun v-else class="h-5 w-5" />
