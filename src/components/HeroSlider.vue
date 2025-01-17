@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 const slides = [
   {
@@ -26,6 +26,7 @@ const slides = [
 ];
 
 const currentSlide = ref(0);
+let intervalId;
 
 const nextSlide = () => {
   currentSlide.value = (currentSlide.value + 1) % slides.length;
@@ -34,13 +35,22 @@ const nextSlide = () => {
 const prevSlide = () => {
   currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length;
 };
+
+// Auto-slide setup
+onMounted(() => {
+  intervalId = setInterval(nextSlide, 3000); // Change slide every 3 seconds
+});
+
+onUnmounted(() => {
+  clearInterval(intervalId); // Clean up interval
+});
 </script>
 
 <template>
-  <div class="relative w-full">
+  <div class="relative w-full h-[80%]">
     <div class="carousel">
       <div
-        class="carousel-content flex transition-transform duration-300 ease-in-out"
+        class="carousel-content flex transition-transform duration-500 ease-in-out"
         :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
       >
         <div
