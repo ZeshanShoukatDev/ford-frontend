@@ -29,7 +29,7 @@
           'bg-white text-gray-900 border-gray-300 placeholder-gray-500':
             !isDarkMode,
         }"
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border h-10 px-4 py-2"
+        class="z-0 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border h-10 px-4 py-2"
         @click="findNearestDealer"
       >
         <svg
@@ -170,7 +170,6 @@ const dealers = [
 ];
 
 function zipDistance(zip1, zip2) {
-  // Simple distance calculation based on ZIP code difference
   return Math.abs(parseInt(zip1) - parseInt(zip2));
 }
 
@@ -196,7 +195,6 @@ function findNearestDealer() {
     nearestDealer.value = nearest;
     map.value.setView(nearest.coords, 14);
 
-    // Find the marker for the nearest dealer and open its popup
     const markers = Object.values(map.value._layers);
     const nearestMarker = markers.find(
       (layer) =>

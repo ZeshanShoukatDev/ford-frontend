@@ -1,6 +1,7 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, onMounted, onUnmounted } from "vue";
 
+// Props and emits
 defineProps({
   model: String,
   price: Number,
@@ -9,11 +10,23 @@ defineProps({
 });
 
 const emit = defineEmits(["close"]);
+
+// Prevent background scrolling
+const disableScroll = () => {
+  document.body.classList.add("overflow-hidden");
+};
+
+const enableScroll = () => {
+  document.body.classList.remove("overflow-hidden");
+};
+
+onMounted(disableScroll);
+onUnmounted(enableScroll);
 </script>
 
 <template>
   <div
-    class="card overflow-hidden rounded-lg transition-colors duration-200 max-w-3xl mx-auto mt-8"
+    class="card overflow-hidden rounded-lg transition-colors duration-200 max-w-3xl mx-auto mt-8 relative z-20"
     :class="{
       'bg-white text-gray-900 border border-gray-200': !isDarkMode,
       'bg-gray-800 text-white border border-gray-700': isDarkMode,
