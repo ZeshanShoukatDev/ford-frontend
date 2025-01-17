@@ -35,7 +35,7 @@ defineProps({
       <div class="p-4">
         <h3 class="text-lg font-semibold mb-4">{{ name }}</h3>
         <button
-          class="w-full bg-[#1C79C4] hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-300 ease-in-out"
+          class="w-full bg-[#1C79C4] text-white border border-transparent hover:bg-white hover:text-[#1C79C4] hover:border-[#1C79C4] py-2 px-4 rounded transition duration-300 ease-in-out"
         >
           View Inventory
         </button>

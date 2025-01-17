@@ -41,7 +41,7 @@
           :class="{
             'bg-gray-900 text-white border-[#1C79C4] hover:text-white  hover:bg-blue-700':
               isDarkMode,
-            'bg-white text-black border-[#1C79C4] hover:text-white hover:bg-blue-700':
+            'bg-white text-[#1C79C4] border-[#1C79C4] hover:text-white hover:bg-[#1C79C4]':
               !isDarkMode,
           }"
         >
