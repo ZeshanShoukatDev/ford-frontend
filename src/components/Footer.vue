@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { MapPin, ChevronDown, Phone, Clock } from "lucide-vue-next";
 
+// All dealers
 const dealers = [
   {
     name: "DownTown Ford",
@@ -85,8 +86,11 @@ const dealers = [
   },
 ];
 
-const openDealer = ref(null);
+// Split dealers into two halves for left and right columns
+const leftDealers = dealers.slice(0, Math.ceil(dealers.length / 2));
+const rightDealers = dealers.slice(Math.ceil(dealers.length / 2));
 
+const openDealer = ref(null);
 const toggleDealer = (dealerName) => {
   if (openDealer.value === dealerName) {
     openDealer.value = null;
@@ -105,77 +109,150 @@ const props = defineProps({
 
 <template>
   <div
-    class="grid md:grid-cols-2 gap-6 p-6"
+    class="grid grid-cols-2 gap-6 p-6"
     :class="{
       'bg-gray-900 text-white': isDarkMode,
       'bg-white text-gray-900': !isDarkMode,
     }"
   >
-    <div
-      v-for="dealer in dealers"
-      :key="dealer.name"
-      class="border-b relative"
-      :class="{
-        'border-gray-700': isDarkMode,
-        'border-gray-200': !isDarkMode,
-      }"
-    >
-      <h3>
-        <button
-          @click="toggleDealer(dealer.name)"
-          class="flex items-center justify-between w-full py-4 text-left transition-colors duration-200"
-          :class="{
-            'hover:bg-gray-800 text-white': isDarkMode,
-            'hover:bg-gray-50 text-gray-900': !isDarkMode,
-          }"
-        >
-          <div class="flex items-center gap-2">
-            <MapPin
-              class="h-5 w-5"
-              :class="isDarkMode ? 'text-blue-300' : 'text-blue-600'"
-            />
-            <span class="font-semibold">{{ dealer.name }}</span>
-          </div>
-          <ChevronDown
-            class="h-5 w-5 transition-transform duration-200"
-            :class="{
-              'rotate-180': openDealer === dealer.name,
-              'text-gray-400': isDarkMode,
-              'text-gray-500': !isDarkMode,
-            }"
-          />
-        </button>
-      </h3>
+    <!-- Left Column (First half of dealers) -->
+    <div class="flex flex-col space-y-4">
       <div
-        v-if="openDealer === dealer.name"
-        class="absolute left-0 right-0 shadow-md z-10 mt-1 p-4 rounded-md"
+        v-for="dealer in leftDealers"
+        :key="dealer.name"
+        class="border-b relative"
         :class="{
-          'bg-gray-800 border-gray-700 text-white': isDarkMode,
-          'bg-white border-gray-200 text-gray-900': !isDarkMode,
+          'border-gray-700': isDarkMode,
+          'border-gray-200': !isDarkMode,
         }"
       >
-        <p>{{ dealer.address }}</p>
-        <p>{{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
-        <div class="flex items-center gap-2 mt-2">
-          <Phone class="h-4 w-4" />
-          <span>{{ dealer.phone }}</span>
-        </div>
-        <div class="flex items-center gap-2 mt-1">
-          <Clock class="h-4 w-4" />
-          <span>{{ dealer.hours }}</span>
-        </div>
-        <button
-          class="w-full py-2 mt-2 font-semibold rounded-lg"
+        <h3>
+          <button
+            @click="toggleDealer(dealer.name)"
+            class="flex items-center justify-between w-full py-4 text-left transition-colors duration-200"
+            :class="{
+              'hover:bg-gray-800 text-white': isDarkMode,
+              'hover:bg-gray-50 text-gray-900': !isDarkMode,
+            }"
+          >
+            <div class="flex items-center gap-2">
+              <MapPin
+                class="h-5 w-5"
+                :class="isDarkMode ? 'text-blue-300' : 'text-blue-600'"
+              />
+              <span class="font-semibold">{{ dealer.name }}</span>
+            </div>
+            <ChevronDown
+              class="h-5 w-5 transition-transform duration-200"
+              :class="{
+                'rotate-180': openDealer === dealer.name,
+                'text-gray-400': isDarkMode,
+                'text-gray-500': !isDarkMode,
+              }"
+            />
+          </button>
+        </h3>
+        <div
+          v-if="openDealer === dealer.name"
+          class="mt-1 p-4 rounded-md shadow-md"
           :class="{
-            'bg-gray-800 border-gray-700 text-white': !isDarkMode,
-            'bg-white border-gray-200 text-gray-900': isDarkMode,
+            'bg-gray-800 border-gray-700 text-white': isDarkMode,
+            'bg-white border-gray-200 text-gray-900': !isDarkMode,
           }"
         >
-          Get Directions
-        </button>
+          <p>{{ dealer.address }}</p>
+          <p>{{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
+          <div class="flex items-center gap-2 mt-2">
+            <Phone class="h-4 w-4" />
+            <span>{{ dealer.phone }}</span>
+          </div>
+          <div class="flex items-center gap-2 mt-1">
+            <Clock class="h-4 w-4" />
+            <span>{{ dealer.hours }}</span>
+          </div>
+          <button
+            class="w-full py-2 mt-2 font-semibold rounded-lg"
+            :class="{
+              'bg-gray-800 border-gray-700 text-white': !isDarkMode,
+              'bg-white border-gray-200 text-gray-900': isDarkMode,
+            }"
+          >
+            Get Directions
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column (Second half of dealers) -->
+    <div class="flex flex-col space-y-4">
+      <div
+        v-for="dealer in rightDealers"
+        :key="dealer.name"
+        class="border-b relative"
+        :class="{
+          'border-gray-700': isDarkMode,
+          'border-gray-200': !isDarkMode,
+        }"
+      >
+        <h3>
+          <button
+            @click="toggleDealer(dealer.name)"
+            class="flex items-center justify-between w-full py-4 text-left transition-colors duration-200"
+            :class="{
+              'hover:bg-gray-800 text-white': isDarkMode,
+              'hover:bg-gray-50 text-gray-900': !isDarkMode,
+            }"
+          >
+            <div class="flex items-center gap-2">
+              <MapPin
+                class="h-5 w-5"
+                :class="isDarkMode ? 'text-blue-300' : 'text-blue-600'"
+              />
+              <span class="font-semibold">{{ dealer.name }}</span>
+            </div>
+            <ChevronDown
+              class="h-5 w-5 transition-transform duration-200"
+              :class="{
+                'rotate-180': openDealer === dealer.name,
+                'text-gray-400': isDarkMode,
+                'text-gray-500': !isDarkMode,
+              }"
+            />
+          </button>
+        </h3>
+        <div
+          v-if="openDealer === dealer.name"
+          class="mt-1 p-4 rounded-md shadow-md"
+          :class="{
+            'bg-gray-800 border-gray-700 text-white': isDarkMode,
+            'bg-white border-gray-200 text-gray-900': !isDarkMode,
+          }"
+        >
+          <p>{{ dealer.address }}</p>
+          <p>{{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
+          <div class="flex items-center gap-2 mt-2">
+            <Phone class="h-4 w-4" />
+            <span>{{ dealer.phone }}</span>
+          </div>
+          <div class="flex items-center gap-2 mt-1">
+            <Clock class="h-4 w-4" />
+            <span>{{ dealer.hours }}</span>
+          </div>
+          <button
+            class="w-full py-2 mt-2 font-semibold rounded-lg"
+            :class="{
+              'bg-gray-800 border-gray-700 text-white': !isDarkMode,
+              'bg-white border-gray-200 text-gray-900': isDarkMode,
+            }"
+          >
+            Get Directions
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
   <div
     class="mt-20 border-t pt-4 text-center text-sm"
     :class="isDarkMode ? 'text-white' : 'text-gray-600'"

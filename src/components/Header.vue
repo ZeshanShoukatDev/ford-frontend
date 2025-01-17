@@ -20,26 +20,22 @@ const props = defineProps({
     :class="{ 'dark:border-gray-700': props.isDarkMode }"
   >
     <div class="container flex h-16 items-center justify-between px-4">
-      <router-link to="/" class="flex items-center space-x-3">
-        <div class="relative w-[40px] h-[40px]">
-          <img
-            src="https://www.ford.com/favicon.ico"
-            alt="Ford Logo"
-            class="object-contain w-full h-full"
-          />
-        </div>
-        <div class="flex flex-col items-start">
-          <span class="text-xs uppercase tracking-wider text-muted-foreground">
-            YOUR LOCAL
-          </span>
-          <span class="text-sm font-semibold tracking-wide">FORD DEALER</span>
-        </div>
-      </router-link>
+      <!-- Placeholder for alignment -->
+      <div class="flex-1"></div>
 
-      <!-- Dark mode toggle button with text -->
+      <!-- Logo in the center -->
+      <div class="flex justify-center items-center h-[80px]">
+        <img
+          src="/logo1.png"
+          alt="Ford Logo"
+          class="object-contain w-[120px] h-[120px] sm:w-[1500px] sm:h-[150px] lg:w-[200px] lg:h-[200px]"
+        />
+      </div>
+
+      <!-- Dark mode toggle button -->
       <button
         @click="toggleDarkMode"
-        class="flex items-center space-x-2 p-2 rounded-full text-black hover:bg-black hover:text-white dark:text-gray-400 dark:hover:bg-white dark:hover:text-black transition-colors duration-200"
+        class="flex-1 flex justify-end items-center space-x-2 p-2 rounded-full text-black hover:bg-black hover:text-white dark:text-gray-400 font-bold dark:hover:bg-white dark:hover:text-black transition-colors duration-200"
       >
         <Moon v-if="!isDarkMode" class="h-5 w-5" />
         <Sun v-else class="h-5 w-5" />
