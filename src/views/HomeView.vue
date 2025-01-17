@@ -54,6 +54,10 @@
       <section>
         <Footer :isDarkMode="isDarkMode" />
       </section>
+
+      <section>
+        <Footer2 :isDarkMode="isDarkMode" />
+      </section>
     </main>
   </div>
 </template>
@@ -66,6 +70,7 @@ import ModelCard from "@/components/ModelCard.vue";
 import VehicleCard from "@/components/VehicleCard.vue";
 import DealerMap from "@/components/DealerMap.vue";
 import Footer from "@/components/Footer.vue";
+import Footer2 from "@/components/Footer2.vue";
 import { X } from "lucide-vue-next";
 
 const isDarkMode = ref(false);
