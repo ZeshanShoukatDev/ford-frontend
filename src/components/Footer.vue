@@ -4,31 +4,31 @@ import { MapPin, ChevronDown, Phone, Clock } from "lucide-vue-next";
 
 const dealers = [
   {
-    name: "Empire Ford Lincoln",
-    address: "106 Old Jonesboro Rd.",
-    city: "Abingdon",
-    state: "VA",
-    zip: "24210",
+    name: "DownTown Ford",
+    address: "123 Main Street",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90012",
     phone: "(213) 555-0123",
     hours: "9:00 AM - 8:00 PM",
     coords: [34.0522, -118.2437],
   },
   {
-    name: "Ford of Elizabethton",
-    address: "2224 West Elk Avenue",
-    city: "Elizabethton",
-    state: "TN",
-    zip: "37643",
+    name: "Beverly Hills Ford",
+    address: "789 Beverly Drive",
+    city: "Beverly Hills",
+    state: "CA",
+    zip: "90210",
     phone: "(310) 555-0124",
     hours: "8:00 AM - 7:00 PM",
     coords: [34.0814, -118.4125],
   },
   {
-    name: "Freedom Ford of Wise",
-    address: "151 Woodland Dr.",
-    city: "Wise",
-    state: "VA",
-    zip: "24293",
+    name: "321 Westwood Blvd",
+    address: "321 Westwood Blvd",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90024",
     phone: "(310) 555-0125",
     hours: "9:00 AM - 6:00 PM",
     coords: [34.0617, -118.3049],
@@ -44,41 +44,41 @@ const dealers = [
     coords: [34.0901, -118.3884],
   },
   {
-    name: "Gateway Ford Lincoln",
-    address: "1055 W Andrew Johnson Hwy",
-    city: "Greeneville",
-    state: "TN",
-    zip: "37745",
+    name: "USC Ford",
+    address: "654 Figueroa Street",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90007",
     phone: "(213) 555-0127",
     hours: "9:00 AM - 8:00 PM",
     coords: [34.0458, -118.2578],
   },
   {
-    name: "Johnson City Ford",
-    address: "3519 Bristol Hwy",
-    city: "Johnson City",
-    state: "TN",
-    zip: "37601",
+    name: "Brentwood Ford",
+    address: "987 San Vicente Blvd",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90049",
     phone: "(310) 555-0128",
     hours: "8:00 AM - 7:00 PM",
     coords: [34.0736, -118.4003],
   },
   {
-    name: "Morgan-McClure Ford, Inc.",
-    address: "16600 Riverside Dr.",
-    city: "Saint Paul",
-    state: "VA",
-    zip: "24283",
+    name: "Century City Ford",
+    address: "246 Century Park West",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90067",
     phone: "(310) 555-0129",
     hours: "9:00 AM - 6:00 PM",
     coords: [34.0762, -118.3799],
   },
   {
-    name: "Wallace Ford of Kingsport",
-    address: "2761 East Stone Drive",
-    city: "Kingsport",
-    state: "TN",
-    zip: "37660",
+    name: "Glendale Fort",
+    address: "135 Brand Blvd",
+    city: "Glendale",
+    state: "CA",
+    zip: "91204",
     phone: "(818) 555-0130",
     hours: "8:30 AM - 7:30 PM",
     coords: [34.1478, -118.2573],
@@ -164,11 +164,20 @@ const props = defineProps({
           <Clock class="h-4 w-4" />
           <span>{{ dealer.hours }}</span>
         </div>
+        <button
+          class="w-full py-2 mt-2 font-semibold rounded-lg"
+          :class="{
+            'bg-gray-800 border-gray-700 text-white': !isDarkMode,
+            'bg-white border-gray-200 text-gray-900': isDarkMode,
+          }"
+        >
+          Get Directions
+        </button>
       </div>
     </div>
   </div>
   <div
-    class="mt-12 border-t pt-4 text-center text-sm"
+    class="mt-20 border-t pt-4 text-center text-sm"
     :class="isDarkMode ? 'text-white' : 'text-gray-600'"
   >
     <p>
