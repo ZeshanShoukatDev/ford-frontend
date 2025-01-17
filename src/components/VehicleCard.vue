@@ -12,7 +12,9 @@ defineProps({
 const showDetail = ref(false);
 
 const openDetails = () => {
-  showDetail.value = true;
+  setTimeout(() => {
+    showDetail.value = true;
+  }, 1000);
 };
 
 const closeDetails = () => {
