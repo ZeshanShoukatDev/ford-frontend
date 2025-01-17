@@ -39,9 +39,9 @@
         <button
           class="w-2/3 mt-2 px-4 py-2 rounded transition-colors duration-200 text-sm border"
           :class="{
-            'bg-gray-900 text-white border-[#1C79C4] hover:text-white hover:bg-blue-700':
+            'bg-gray-900 text-white border-[#1C79C4] hover:text-white  hover:bg-blue-700':
               isDarkMode,
-            'bg-white text-black border-[#1C79C4] hover:bg-blue-700':
+            'bg-white text-black border-[#1C79C4] hover:text-white hover:bg-blue-700':
               !isDarkMode,
           }"
         >
