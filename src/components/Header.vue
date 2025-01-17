@@ -19,7 +19,7 @@ const props = defineProps({
     class="w-full border-b"
     :class="{ 'dark:border-gray-700': props.isDarkMode }"
   >
-    <div class="container flex h-16 items-center justify-between px-4">
+    <div class="flex h-16 items-center justify-between lg:ml-16">
       <!-- Placeholder for alignment -->
       <div></div>
 
@@ -28,7 +28,7 @@ const props = defineProps({
         <img
           src="/logo1.png"
           alt="Ford Logo"
-          class="object-contain w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] lg:w-[200px] lg:h-[200px]"
+          class="object-contain w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] lg:w-[200px] lg:h-[200px] lg:ml-10"
         />
       </div>
 
