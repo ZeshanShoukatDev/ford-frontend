@@ -9,8 +9,6 @@ defineProps({
   isDarkMode: Boolean,
 });
 
-const emit = defineEmits(["close"]);
-
 // Prevent background scrolling
 const disableScroll = () => {
   document.body.classList.add("overflow-hidden");
@@ -33,10 +31,16 @@ onUnmounted(enableScroll);
     }"
   >
     <div class="flex">
-      <!-- Left Content -->
+      <div class="w-1/2">
+        <img :src="imageUrl" :alt="model" class="object-cover w-full h-full" />
+      </div>
+
       <div class="p-6 w-1/2">
-        <h3 class="text-2xl font-semibold mb-2">{{ model }}</h3>
-        <p class="text-xl font-bold mb-4">${{ price.toLocaleString() }}</p>
+        <h3 class="text-xl font-semibold mb-2">{{ model }}</h3>
+        <p class="text-3xl font-bold mb-4">
+          ${{ price.toLocaleString() }}
+          <span class="text-lg font-semibold">MSRP</span>
+        </p>
         <p
           class="text-sm mb-6"
           :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'"
@@ -46,15 +50,9 @@ onUnmounted(enableScroll);
         </p>
         <button
           class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-300 ease-in-out"
-          @click="$emit('close')"
         >
-          Close
+          Expand for More Details
         </button>
-      </div>
-
-      <!-- Right Image -->
-      <div class="w-1/2">
-        <img :src="imageUrl" :alt="model" class="object-cover w-full h-full" />
       </div>
     </div>
   </div>
