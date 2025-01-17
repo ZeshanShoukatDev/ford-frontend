@@ -14,7 +14,7 @@ const showDetail = ref(false);
 const openDetails = () => {
   setTimeout(() => {
     showDetail.value = true;
-  }, 1000);
+  }, 1500);
 };
 
 const closeDetails = () => {

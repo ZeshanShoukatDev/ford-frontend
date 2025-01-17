@@ -94,7 +94,7 @@ const inventoryData = {
       model: "F-150 XLT",
       price: 45999,
       imageUrl:
-        "https://images.unsplash.com/photo-1609717633711-4f4f3a951f67?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "F-150 Lariat",
@@ -106,19 +106,19 @@ const inventoryData = {
       model: "F-150 Platinum",
       price: 62999,
       imageUrl:
-        "https://images.unsplash.com/photo-1609717633717-8c6e738c1ba6?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "F-150 Limited",
       price: 74999,
       imageUrl:
-        "https://images.unsplash.com/photo-1612051855118-dcf171874716?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "F-150 Raptor",
       price: 82999,
       imageUrl:
-        "https://images.unsplash.com/photo-1609717633711-4f4f3a951f67?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "F-150 Lightning",
@@ -132,7 +132,7 @@ const inventoryData = {
       model: "Bronco Sport",
       price: 45999,
       imageUrl:
-        "https://images.unsplash.com/photo-1609717633711-4f4f3a951f67?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "Bronco Big Bend",
@@ -144,25 +144,25 @@ const inventoryData = {
       model: "Bronco Black Diamond",
       price: 58999,
       imageUrl:
-        "https://images.unsplash.com/photo-1609717633717-8c6e738c1ba6?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "Bronco Wildtrak",
       price: 65999,
       imageUrl:
-        "https://images.unsplash.com/photo-1612051855118-dcf171874716?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "Bronco Badlands",
       price: 69999,
       imageUrl:
-        "https://images.unsplash.com/photo-1612051855118-dcf171874716?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
     {
       model: "Bronco Raptor",
       price: 82999,
       imageUrl:
-        "https://images.unsplash.com/photo-1609717633711-4f4f3a951f67?q=80&w=800",
+        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
     },
   ],
   Escape: [
@@ -214,7 +214,7 @@ const inventory = computed(() => {
 const selectModel = (model) => {
   setTimeout(() => {
     selectedModel.value = model;
-  }, 1000);
+  }, 1500);
 };
 
 const closeModel = () => {
