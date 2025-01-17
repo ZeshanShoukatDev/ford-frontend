@@ -36,6 +36,10 @@ const prevSlide = () => {
   currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length;
 };
 
+const goToSlide = (index) => {
+  currentSlide.value = index;
+};
+
 // Auto-slide setup
 onMounted(() => {
   intervalId = setInterval(nextSlide, 3000); // Change slide every 3 seconds
@@ -82,7 +86,7 @@ onUnmounted(() => {
       </div>
       <!-- Navigation Arrows -->
       <button
-        class="slider-button inline-flex items-center justify-center bg-white hover:bg-gray-300 gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-full absolute left-4 top-1/2 -translate-y-1/2"
+        class="slider-button inline-flex items-center justify-center bg-white hover:bg-gray-300 gap-2 text-sm font-medium h-8 w-8 rounded-full absolute left-4 top-1/2 -translate-y-1/2"
         @click="prevSlide"
       >
         <svg
@@ -102,7 +106,7 @@ onUnmounted(() => {
         ><span class="sr-only">Previous slide</span>
       </button>
       <button
-        class="slider-button inline-flex items-center justify-center bg-white hover:bg-gray-300 gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-full absolute right-4 top-1/2 -translate-y-1/2"
+        class="slider-button inline-flex items-center justify-center bg-white hover:bg-gray-300 gap-2 text-sm font-medium h-8 w-8 rounded-full absolute right-4 top-1/2 -translate-y-1/2"
         @click="nextSlide"
       >
         <svg
@@ -121,6 +125,19 @@ onUnmounted(() => {
           <path d="m12 5 7 7-7 7"></path></svg
         ><span class="sr-only">Next slide</span>
       </button>
+    </div>
+    <!-- Navigation Dots -->
+    <div
+      class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"
+    >
+      <button
+        v-for="(slide, index) in slides"
+        :key="index"
+        class="w-3 h-3 rounded-full"
+        :class="index === currentSlide ? 'bg-white' : 'bg-gray-400'"
+        @click="goToSlide(index)"
+        aria-label="Navigate to slide"
+      />
     </div>
   </div>
 </template>
@@ -146,5 +163,9 @@ onUnmounted(() => {
 body.dark .slider-button {
   background-color: white !important;
   color: black !important;
+}
+
+button[aria-label="Navigate to slide"] {
+  transition: background-color 0.3s ease;
 }
 </style>
