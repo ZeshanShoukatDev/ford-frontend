@@ -1,12 +1,11 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps } from "vue";
 
 defineProps({
   name: String,
   imageUrl: String,
   onSelect: Function,
   isSelected: Boolean,
-  isHovered: Boolean,
 });
 </script>
 
@@ -18,16 +17,13 @@ defineProps({
         'bg-white text-gray-900': true,
         'transform scale-105 z-6': isSelected,
         'transform scale-90 translate-z-6': !isSelected,
-        'hover:scale-75': isHovered,
       },
     ]"
     @click="onSelect"
-    @mouseenter="isHovered = true"
-    @mouseleave="isHovered = false"
-    class="transition-all transform-gpu"
+    class="transition-all transform-gpu hover:scale-95"
   >
     <div class="card-content p-0">
-      <div class="aspect-[4/3] relative">
+      <div class="aspect-[3/2] relative">
         <img :src="imageUrl" :alt="name" class="object-cover w-full h-full" />
       </div>
       <div class="p-4">

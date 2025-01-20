@@ -24,9 +24,9 @@
       <section v-if="selectedModel">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-2xl font-bold">{{ selectedModel }} Inventory</h2>
-          <Button variant="ghost" @click="closeModel">
+          <button variant="ghost" @click="closeModel">
             <X class="h-5 w-5" />
-          </Button>
+          </button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <VehicleCard
