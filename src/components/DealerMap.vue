@@ -12,24 +12,12 @@
     <div class="flex justify-center gap-2 mb-6">
       <input
         type="text"
-        :class="{
-          'bg-gray-900 text-white border-gray-700 placeholder-gray-400':
-            isDarkMode,
-          'bg-white text-gray-900 border-gray-300 placeholder-gray-500':
-            !isDarkMode,
-        }"
-        class="flex h-10 w-full rounded-md border px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm max-w-[200px]"
+        class="flex h-10 w-full rounded-md border bg-white text-gray-900 border-gray-300 placeholder-gray-500 px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm max-w-[200px]"
         placeholder="Enter ZIP code"
         v-model="zipCode"
       />
       <button
-        :class="{
-          'bg-gray-900 text-white border-gray-700 placeholder-gray-400':
-            isDarkMode,
-          'bg-white text-gray-900 border-gray-300 placeholder-gray-500':
-            !isDarkMode,
-        }"
-        class="z-0 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border h-10 px-4 py-2"
+        class="z-0 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-white text-gray-900 border-gray-300 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border h-10 px-4 py-2"
         @click="findNearestDealer"
       >
         <svg
@@ -71,16 +59,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-const props = defineProps({
-  isDarkMode: {
-    type: Boolean,
-    required: true,
-  },
-});
 
 const zipCode = ref("");
 const map = ref(null);

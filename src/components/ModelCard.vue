@@ -5,7 +5,6 @@ defineProps({
   name: String,
   imageUrl: String,
   onSelect: Function,
-  isDarkMode: Boolean,
   isSelected: Boolean,
   isHovered: Boolean,
 });
@@ -14,10 +13,9 @@ defineProps({
 <template>
   <div
     :class="[
-      'card overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out',
+      'card overflow-hidden rounded-lg border border-gray-200 transition-all duration-300 ease-in-out',
       {
-        'bg-white text-gray-900': !isDarkMode,
-        'bg-gray-900 text-white': isDarkMode,
+        'bg-white text-gray-900': true,
         'transform scale-105 z-6': isSelected,
         'transform scale-90 translate-z-6': !isSelected,
         'hover:scale-75': isHovered,

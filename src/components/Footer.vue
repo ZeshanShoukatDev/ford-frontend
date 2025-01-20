@@ -1,58 +1,38 @@
 <template>
-  <footer
-    class="p-4 overflow-x-auto"
-    :class="{
-      'bg-gray-900 text-white': isDarkMode,
-      'bg-white text-gray-900': !isDarkMode,
-    }"
-  >
+  <footer class="p-4 overflow-x-auto bg-white text-gray-900">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
       <div
         v-for="dealer in dealers"
         :key="dealer.name"
-        class="flex-shrink-0 w-full px-4"
-        :class="{
-          'border-gray-700': isDarkMode,
-          'border-gray-200': !isDarkMode,
-        }"
+        class="flex-shrink-0 w-full px-4 border-gray-200"
       >
         <h2 class="font-bold text-lg mb-2">{{ dealer.name }}</h2>
         <p class="text-sm mb-2">
           <div class="ml-2">
             {{ dealer.address }}<br />
-          {{ dealer.city }}, {{ dealer.state }} <br />
-
-          {{ dealer.zip }}
+            {{ dealer.city }}, {{ dealer.state }} <br />
+            {{ dealer.zip }}
           </div>
 
           <div class="mt-2">
             <span class="flex items-center">
-            <i class="fas fa-phone-alt mr-2"></i>
-            {{ dealer.phone }}
-          </span>
-          <span class="flex items-center">
-            <i class="fas fa-clock mr-2"></i>
-            {{ dealer.time }}
-          </span>
+              <i class="fas fa-phone-alt mr-2"></i>
+              {{ dealer.phone }}
+            </span>
+            <span class="flex items-center">
+              <i class="fas fa-clock mr-2"></i>
+              {{ dealer.time }}
+            </span>
           </div>
         </p>
         <button
-          class="w-2/3 mt-2 px-4 py-2 rounded transition-colors duration-200 text-sm border"
-          :class="{
-            'bg-gray-900 text-white border-[#1C79C4] hover:text-white  hover:bg-blue-700':
-              isDarkMode,
-            'bg-white text-[#1C79C4] border-[#1C79C4] hover:text-white hover:bg-[#1C79C4]':
-              !isDarkMode,
-          }"
+          class="w-2/3 mt-2 px-4 py-2 rounded transition-colors duration-200 text-sm border bg-white text-[#1C79C4] border-[#1C79C4] hover:text-white hover:bg-[#1C79C4]"
         >
           Directions
         </button>
       </div>
     </div>
-    <div
-      class="mt-20 border-t pt-4 text-center text-sm"
-      :class="isDarkMode ? 'text-white' : 'text-gray-600'"
-    >
+    <div class="mt-20 border-t pt-4 text-center text-sm text-gray-600">
       <p>
         &copy; {{ new Date().getFullYear() }} Ford Dealership. All rights
         reserved.
@@ -138,13 +118,6 @@ const dealers = ref([
     time: "8:30 AM - 7:30 PM",
   },
 ]);
-
-defineProps({
-  isDarkMode: {
-    type: Boolean,
-    required: true,
-  },
-});
 </script>
 
 <style>

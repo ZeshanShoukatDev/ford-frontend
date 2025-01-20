@@ -160,11 +160,6 @@ onUnmounted(() => {
   transition: background-color 0.3s ease;
 }
 
-body.dark .slider-button {
-  background-color: white !important;
-  color: black !important;
-}
-
 button[aria-label="Navigate to slide"] {
   transition: background-color 0.3s ease;
 }

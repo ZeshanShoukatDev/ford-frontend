@@ -1,12 +1,6 @@
 <template>
-  <div
-    :class="{
-      'bg-gray-900 text-white': isDarkMode,
-      'bg-white text-gray-900': !isDarkMode,
-    }"
-    class="min-h-screen"
-  >
-    <Header :toggleDarkMode="toggleDarkMode" :isDarkMode="isDarkMode" />
+  <div class="min-h-screen bg-white text-gray-900">
+    <Header />
     <main class="w-full px-4 py-8 space-y-12">
       <section>
         <HeroSlider />
@@ -21,9 +15,7 @@
             :key="model.name"
             :name="model.name"
             :imageUrl="model.imageUrl"
-            :isDarkMode="isDarkMode"
             :isSelected="selectedModel === model.name"
-            :isHovered="isHovered"
             @select="selectModel(model.name)"
           />
         </div>
@@ -43,18 +35,18 @@
             :model="vehicle.model"
             :price="vehicle.price"
             :imageUrl="vehicle.imageUrl"
-            :isDarkMode="isDarkMode"
+            :link="vehicle.link"
           />
         </div>
       </section>
 
       <!-- Dealer Map -->
       <section>
-        <DealerMap :isDarkMode="isDarkMode" />
+        <DealerMap />
       </section>
 
       <section>
-        <Footer :isDarkMode="isDarkMode" />
+        <Footer />
       </section>
     </main>
   </div>
@@ -69,8 +61,6 @@ import VehicleCard from "@/components/VehicleCard.vue";
 import DealerMap from "@/components/DealerMap.vue";
 import Footer from "@/components/Footer.vue";
 import { X } from "lucide-vue-next";
-
-const isDarkMode = ref(false);
 
 const models = ref([
   {
@@ -97,36 +87,42 @@ const inventoryData = {
       price: 45999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/trucks/f150/models/f150-xlt/",
     },
     {
       model: "F-150 Lariat",
       price: 52999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/trucks/f150/models/f150-lariat/",
     },
     {
       model: "F-150 Platinum",
       price: 62999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/trucks/f150/models/f150-platinum/",
     },
     {
       model: "F-150 Limited",
       price: 74999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/trucks/f150/",
     },
     {
       model: "F-150 Raptor",
       price: 82999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/trucks/f150/models/f150-raptor/",
     },
     {
       model: "F-150 Lightning",
       price: 69999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/trucks/f150/f150-lightning/2024/",
     },
   ],
   Bronco: [
@@ -135,36 +131,42 @@ const inventoryData = {
       price: 45999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/suvs/bronco-sport/",
     },
     {
       model: "Bronco Big Bend",
       price: 52999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/suvs/bronco/models/bronco-big-bend/",
     },
     {
       model: "Bronco Black Diamond",
       price: 58999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/suvs/bronco/models/bronco-black-diamond/",
     },
     {
       model: "Bronco Wildtrak",
       price: 65999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/suvs/bronco/models/bronco-wildtrak/",
     },
     {
       model: "Bronco Badlands",
       price: 69999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/suvs/bronco/models/bronco-badlands/",
     },
     {
       model: "Bronco Raptor",
       price: 82999,
       imageUrl:
         "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+      link: "https://www.ford.com/suvs/bronco/models/bronco-raptor/",
     },
   ],
   Escape: [
@@ -173,41 +175,48 @@ const inventoryData = {
       price: 28999,
       imageUrl:
         "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+      link: "https://www.ford.com/suvs-crossovers/escape/",
     },
     {
       model: "Escape SE",
       price: 32999,
       imageUrl:
         "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+      link: "https://www.ford.com/suvs-crossovers/escape/",
     },
     {
       model: "Escape SEL",
       price: 35999,
       imageUrl:
         "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+      link: "https://www.ford.com/suvs-crossovers/escape/",
     },
     {
       model: "Escape Titanium",
       price: 39999,
       imageUrl:
         "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+      link: "https://www.ford.com/suvs-crossovers/escape/",
     },
     {
       model: "Escape Hybrid SE",
       price: 34999,
       imageUrl:
         "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+      link: "https://www.ford.com/suvs-crossovers/escape/",
     },
     {
       model: "Escape Plug-in Hybrid",
       price: 42999,
       imageUrl:
         "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+      link: "https://www.ford.com/suvs-crossovers/escape/",
     },
   ],
 };
 
 const selectedModel = ref(null);
+const isHovered = ref(null); // Use null or false by default
 
 const inventory = computed(() => {
   return inventoryData[selectedModel.value] || [];
@@ -221,15 +230,6 @@ const selectModel = (model) => {
 
 const closeModel = () => {
   selectedModel.value = null;
-};
-
-const toggleDarkMode = () => {
-  isDarkMode.value = !isDarkMode.value;
-  if (isDarkMode.value) {
-    document.body.classList.add("dark");
-  } else {
-    document.body.classList.remove("dark");
-  }
 };
 </script>
 
