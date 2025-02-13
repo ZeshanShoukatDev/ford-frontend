@@ -3,9 +3,7 @@
     <div class="text-center space-y-4">
       <h2 class="text-3xl font-bold tracking-tight">Your Local Ford Family</h2>
       <p class="text-muted-foreground max-w-[600px] mx-auto">
-        With 8 convenient locations across the greater Los Angeles area, we're
-        here to serve you. Find your nearest dealership and experience the Ford
-        difference.
+        Find your nearest dealership and experience the Ford difference.
       </p>
     </div>
 
@@ -15,6 +13,8 @@
         class="flex h-10 w-full rounded-md border bg-white text-gray-900 border-gray-300 placeholder-gray-500 px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm max-w-[200px]"
         placeholder="Enter ZIP code"
         v-model="zipCode"
+        @keyup.enter="findNearestDealer"
+        @input="if (!zipCode) resetMap();"
       />
       <button
         class="z-0 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-white text-gray-900 border-gray-300 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border h-10 px-4 py-2"
@@ -50,112 +50,36 @@
       <p>{{ nearestDealer.name }}</p>
       <p>
         {{ nearestDealer.address }}, {{ nearestDealer.city }},
-        {{ nearestDealer.state }} {{ nearestDealer.zip }}
+        {{ nearestDealer.state }}<br />
+        {{ nearestDealer.zip }}
       </p>
-      <p>Phone: {{ nearestDealer.phone }}</p>
-      <p>Hours: {{ nearestDealer.hours }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
+import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const zipCode = ref("");
 const map = ref(null);
 const nearestDealer = ref(null);
+const dealers = ref([]);
 
-const dealers = [
-  {
-    name: "Empire Ford Lincoln",
-    address: "106 Old Jonesboro Rd.",
-    city: "Abingdon",
-    state: "VA",
-    zip: "24210",
-    phone: "(213) 555-0123",
-    hours: "9:00 AM - 8:00 PM",
-    coords: [34.0522, -118.2437],
-  },
-  {
-    name: "Ford of Elizabethton",
-    address: "2224 West Elk Avenue",
-    city: "Elizabethton",
-    state: "TN",
-    zip: "37643",
-    phone: "(310) 555-0124",
-    hours: "8:00 AM - 7:00 PM",
-    coords: [34.0814, -118.4125],
-  },
-  {
-    name: "Freedom Ford of Wise",
-    address: "151 Woodland Dr.",
-    city: "Wise",
-    state: "VA",
-    zip: "24293",
-    phone: "(310) 555-0125",
-    hours: "9:00 AM - 6:00 PM",
-    coords: [34.0617, -118.3049],
-  },
-  {
-    name: "Friendship Ford",
-    address: "3192 West State Street",
-    city: "Bristol",
-    state: "TN",
-    zip: "37620",
-    phone: "(310) 555-0126",
-    hours: "8:30 AM - 7:30 PM",
-    coords: [34.0901, -118.3884],
-  },
-  {
-    name: "Gateway Ford Lincoln",
-    address: "1055 W Andrew Johnson Hwy",
-    city: "Greeneville",
-    state: "TN",
-    zip: "37745",
-    phone: "(213) 555-0127",
-    hours: "9:00 AM - 8:00 PM",
-    coords: [34.0458, -118.2578],
-  },
-  {
-    name: "Johnson City Ford",
-    address: "3519 Bristol Hwy",
-    city: "Johnson City",
-    state: "TN",
-    zip: "37601",
-    phone: "(310) 555-0128",
-    hours: "8:00 AM - 7:00 PM",
-    coords: [34.0736, -118.4003],
-  },
-  {
-    name: "Morgan-McClure Ford, Inc.",
-    address: "16600 Riverside Dr.",
-    city: "Saint Paul",
-    state: "VA",
-    zip: "24283",
-    phone: "(310) 555-0129",
-    hours: "9:00 AM - 6:00 PM",
-    coords: [34.0762, -118.3799],
-  },
-  {
-    name: "Wallace Ford of Kingsport",
-    address: "2761 East Stone Drive",
-    city: "Kingsport",
-    state: "TN",
-    zip: "37660",
-    phone: "(818) 555-0130",
-    hours: "8:30 AM - 7:30 PM",
-    coords: [34.1478, -118.2573],
-  },
-];
+const defaultMapView = {
+  latitude: 36.71763973293212,
+  longitude: -81.87871595367429,
+  zoom: 7,
+};
 
 function zipDistance(zip1, zip2) {
   return Math.abs(parseInt(zip1) - parseInt(zip2));
 }
 
 function findNearestDealer() {
-  const enteredZip = zipCode.value;
+  const enteredZip = zipCode.value.trim();
   if (!enteredZip) {
     alert("Please enter a ZIP code.");
     return;
@@ -164,8 +88,8 @@ function findNearestDealer() {
   let nearest = null;
   let minDistance = Infinity;
 
-  dealers.forEach((dealer) => {
-    const distance = zipDistance(enteredZip, dealer.zip);
+  dealers.value.forEach((dealer) => {
+    const distance = zipDistance(enteredZip, dealer.zip_code);
     if (distance < minDistance) {
       minDistance = distance;
       nearest = dealer;
@@ -174,13 +98,15 @@ function findNearestDealer() {
 
   if (nearest) {
     nearestDealer.value = nearest;
-    map.value.setView(nearest.coords, 14);
+    map.value.setView([nearest.latitude, nearest.longitude], 14);
 
     const markers = Object.values(map.value._layers);
     const nearestMarker = markers.find(
       (layer) =>
         layer instanceof L.Marker &&
-        layer.getLatLng().equals(L.latLng(nearest.coords))
+        layer
+          .getLatLng()
+          .equals(L.latLng([nearest.latitude, nearest.longitude]))
     );
     if (nearestMarker) {
       nearestMarker.openPopup();
@@ -190,19 +116,41 @@ function findNearestDealer() {
   }
 }
 
+function resetMap() {
+  map.value.setView(
+    [defaultMapView.latitude, defaultMapView.longitude],
+    defaultMapView.zoom
+  );
+  nearestDealer.value = null;
+}
+
+function handleInputChange() {
+  if (!zipCode.value) {
+    resetMap();
+  }
+}
+
 onMounted(() => {
   initMap();
+  fetchDealers();
 });
 
-function initMap() {
-  map.value = L.map("map").setView([34.0522, -118.2437], 10);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map.value);
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+async function fetchDealers() {
+  try {
+    const response = await axios.get(`${baseURL}/ford-dealerships/`);
+    dealers.value = response.data;
+    updateMapMarkers();
+  } catch (error) {
+    console.error("Error fetching dealerships:", error);
+  }
+}
 
-  dealers.forEach((dealer) => {
-    L.marker(dealer.coords, {
+function updateMapMarkers() {
+  const bounds = []; // Store all marker positions for fitBounds
+
+  dealers.value.forEach((dealer) => {
+    const marker = L.marker([dealer.latitude, dealer.longitude], {
       icon: L.icon({
         iconUrl:
           "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
@@ -213,12 +161,34 @@ function initMap() {
         popupAnchor: [1, -34],
         shadowSize: [41, 41],
       }),
-    })
-      .addTo(map.value)
-      .bindPopup(
-        `<b>${dealer.name}</b><br>${dealer.address}, ${dealer.city}, ${dealer.state} ${dealer.zip}<br>Phone: ${dealer.phone}<br>Hours: ${dealer.hours}`
-      );
+    });
+
+    marker.addTo(map.value).bindPopup(
+      `<b>${dealer.name}</b><br>
+         ${dealer.address}, ${dealer.city}, ${dealer.state} ${dealer.zip_code}<br>
+         <a href="${dealer.website}" target="_blank" style="color:blue; text-decoration:underline;">
+           Visit Website
+         </a>`
+    );
+
+    bounds.push([dealer.latitude, dealer.longitude]); // Add marker position to bounds
   });
+
+  // Set the map to fit all markers
+  if (bounds.length > 0) {
+    map.value.fitBounds(bounds, { padding: [50, 50] });
+  }
+}
+
+function initMap() {
+  map.value = L.map("map").setView(
+    [defaultMapView.latitude, defaultMapView.longitude],
+    defaultMapView.zoom
+  );
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map.value);
 }
 </script>
 

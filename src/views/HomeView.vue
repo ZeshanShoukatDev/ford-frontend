@@ -28,15 +28,37 @@
             <X class="h-5 w-5" />
           </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <VehicleCard
-            v-for="(vehicle, index) in inventory"
-            :key="index"
-            :model="vehicle.model"
-            :price="vehicle.price"
-            :imageUrl="vehicle.imageUrl"
-            :link="vehicle.link"
-          />
+        <div v-if="paginatedInventory.length > 0" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <VehicleCard
+              v-for="vehicle in paginatedInventory"
+              :key="vehicle.id"
+              :heading="vehicle.heading"
+              :price="vehicle.price"
+              :imageUrl="vehicle.media_url"
+              :vdpUrl="vehicle.vdp_url"
+            />
+          </div>
+          <div v-if="totalPages > 1" class="flex justify-center space-x-2">
+            <button
+              v-for="page in totalPages"
+              :key="page"
+              @click="currentPage = page"
+              :class="[
+                'px-3 py-1 rounded',
+                currentPage === page
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+              ]"
+            >
+              {{ page }}
+            </button>
+          </div>
+        </div>
+        <div v-else class="text-center py-12">
+          <p class="text-xl font-semibold text-gray-600">
+            No vehicles available
+          </p>
         </div>
       </section>
 
@@ -53,7 +75,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
+import axios from "axios";
 import Header from "@/components/Header.vue";
 import HeroSlider from "@/components/HeroSlider.vue";
 import ModelCard from "@/components/ModelCard.vue";
@@ -65,172 +88,92 @@ import { X } from "lucide-vue-next";
 const models = ref([
   {
     name: "F-150",
-    imageUrl:
-      "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+    imageUrl: "/F-150.png",
   },
   {
     name: "Bronco",
-    imageUrl:
-      "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
+    imageUrl: "/Bronco.png",
   },
   {
     name: "Escape",
-    imageUrl:
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+    imageUrl: "/Escape.png",
   },
 ]);
 
-const inventoryData = {
-  "F-150": [
-    {
-      model: "F-150 XLT",
-      price: 45999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/trucks/f150/models/f150-xlt/",
-    },
-    {
-      model: "F-150 Lariat",
-      price: 52999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/trucks/f150/models/f150-lariat/",
-    },
-    {
-      model: "F-150 Platinum",
-      price: 62999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/trucks/f150/models/f150-platinum/",
-    },
-    {
-      model: "F-150 Limited",
-      price: 74999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/trucks/f150/",
-    },
-    {
-      model: "F-150 Raptor",
-      price: 82999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/trucks/f150/models/f150-raptor/",
-    },
-    {
-      model: "F-150 Lightning",
-      price: 69999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/trucks/f150/f150-lightning/2024/",
-    },
-  ],
-  Bronco: [
-    {
-      model: "Bronco Sport",
-      price: 45999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/suvs/bronco-sport/",
-    },
-    {
-      model: "Bronco Big Bend",
-      price: 52999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/suvs/bronco/models/bronco-big-bend/",
-    },
-    {
-      model: "Bronco Black Diamond",
-      price: 58999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/suvs/bronco/models/bronco-black-diamond/",
-    },
-    {
-      model: "Bronco Wildtrak",
-      price: 65999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/suvs/bronco/models/bronco-wildtrak/",
-    },
-    {
-      model: "Bronco Badlands",
-      price: 69999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/suvs/bronco/models/bronco-badlands/",
-    },
-    {
-      model: "Bronco Raptor",
-      price: 82999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=800",
-      link: "https://www.ford.com/suvs/bronco/models/bronco-raptor/",
-    },
-  ],
-  Escape: [
-    {
-      model: "Escape S",
-      price: 28999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
-      link: "https://www.ford.com/suvs-crossovers/escape/",
-    },
-    {
-      model: "Escape SE",
-      price: 32999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
-      link: "https://www.ford.com/suvs-crossovers/escape/",
-    },
-    {
-      model: "Escape SEL",
-      price: 35999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
-      link: "https://www.ford.com/suvs-crossovers/escape/",
-    },
-    {
-      model: "Escape Titanium",
-      price: 39999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
-      link: "https://www.ford.com/suvs-crossovers/escape/",
-    },
-    {
-      model: "Escape Hybrid SE",
-      price: 34999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
-      link: "https://www.ford.com/suvs-crossovers/escape/",
-    },
-    {
-      model: "Escape Plug-in Hybrid",
-      price: 42999,
-      imageUrl:
-        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
-      link: "https://www.ford.com/suvs-crossovers/escape/",
-    },
-  ],
-};
-
 const selectedModel = ref(null);
-const isHovered = ref(null); // Use null or false by default
+const vehicleData = ref([]);
+const dealerData = ref([]);
+const currentPage = ref(1);
+const itemsPerPage = 6;
 
 const inventory = computed(() => {
-  return inventoryData[selectedModel.value] || [];
+  if (!selectedModel.value) return [];
+  return vehicleData.value.filter(
+    (vehicle) =>
+      vehicle.build_model?.toLowerCase() ===
+        selectedModel.value.toLowerCase() || vehicle.build_model === null
+  );
+});
+
+const totalPages = computed(() =>
+  Math.ceil(inventory.value.length / itemsPerPage)
+);
+
+const paginatedInventory = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return inventory.value.slice(start, end);
 });
 
 const selectModel = (model) => {
-  setTimeout(() => {
-    selectedModel.value = model;
-  }, 1500);
+  selectedModel.value = model;
+  currentPage.value = 1;
 };
 
 const closeModel = () => {
   selectedModel.value = null;
+  currentPage.value = 1;
 };
+
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+const fetchData = async () => {
+  try {
+    const [vehicleResponse, dealerResponse] = await Promise.all([
+      axios.get(`${baseURL}/ford-data/`),
+      axios.get(`${baseURL}/ford-dealerships/`),
+    ]);
+
+    vehicleData.value = vehicleResponse.data.map((vehicle) => {
+      const matchingDealer = dealerResponse.data.find(
+        (dealer) => dealer.name === vehicle.dealer_name
+      );
+      return {
+        ...vehicle,
+        dealer: matchingDealer,
+      };
+    });
+
+    dealerData.value = dealerResponse.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      console.error("Response status:", error.response.status);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+    } else {
+      console.error("Error setting up request:", error.message);
+    }
+  }
+};
+
+// Reset currentPage when inventory changes
+watch(inventory, () => {
+  currentPage.value = 1;
+});
+
+onMounted(fetchData);
 </script>
 
 <style scoped>

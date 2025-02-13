@@ -6,7 +6,7 @@
         <img
           src="/logo1.png"
           alt="Ford Logo"
-          class="object-contain w-[150px] h-[150px] sm:w-[180px] sm:h-[180px] lg:w-[200px] lg:h-[200px]"
+          class="object-contain w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] lg:w-[240px] lg:h-[240px]"
         />
       </div>
     </div>

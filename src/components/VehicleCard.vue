@@ -1,16 +1,16 @@
 <script setup>
 import { defineProps } from "vue";
 
-const { link, model, price, imageUrl } = defineProps({
-  model: String,
+const props = defineProps({
+  heading: String,
   price: Number,
   imageUrl: String,
-  link: String,
+  vdpUrl: String,
 });
 
-const navigateToLink = () => {
-  if (link) {
-    window.open(link, "_blank");
+const navigateToDealer = () => {
+  if (props.vdpUrl) {
+    window.open(props.vdpUrl, "_blank");
   }
 };
 </script>
@@ -21,11 +21,15 @@ const navigateToLink = () => {
   >
     <div class="card-content p-0">
       <div class="aspect-video relative">
-        <img :src="imageUrl" :alt="model" class="object-cover w-full h-full" />
+        <img
+          :src="imageUrl"
+          :alt="heading"
+          class="object-contain w-full h-full"
+        />
       </div>
       <div class="p-4">
         <div class="flex justify-between items-start mb-4">
-          <h3 class="text-lg font-semibold">{{ model }}</h3>
+          <h3 class="text-lg font-semibold">{{ heading }}</h3>
           <div class="text-right">
             <p class="text-xl font-bold">${{ price.toLocaleString() }}</p>
             <p class="text-sm text-gray-500">MSRP</p>
@@ -33,7 +37,7 @@ const navigateToLink = () => {
         </div>
 
         <button
-          @click="navigateToLink"
+          @click="navigateToDealer"
           class="w-full bg-[#1C79C4] text-white border border-transparent hover:bg-white hover:text-[#1C79C4] hover:border-[#1C79C4] py-2 px-4 rounded transition duration-300 ease-in-out"
           aria-label="Open dealer website in a new tab"
         >

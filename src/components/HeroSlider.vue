@@ -3,26 +3,24 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 const slides = [
   {
-    image:
-      "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?q=80&w=2000",
+    image: "/CSFD-Jan-Digital-970x250-Escape.png",
     alt: "Ford Mustang GT on display",
-    title: "The All-New Mustang",
-    subtitle: "Experience Pure Power",
+    // title: "The All-New Mustang",
+    // subtitle: "Experience Pure Power",
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=2000",
+    image: "/CSFD-Jan-Digital-970x250-F-150.png",
     alt: "Ford Bronco in adventure setting",
-    title: "2024 Bronco",
-    subtitle: "Built Wild™",
+    // title: "2024 Bronco",
+    // subtitle: "Built Wild™",
   },
-  {
-    image:
-      "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?q=80&w=2000",
-    alt: "Ford F-150 truck",
-    title: "F-150 Lightning",
-    subtitle: "The Future of Tough",
-  },
+  // {
+  //   image:
+  //     "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?q=80&w=2000",
+  //   alt: "Ford F-150 truck",
+  //   title: "F-150 Lightning",
+  //   subtitle: "The Future of Tough",
+  // },
 ];
 
 const currentSlide = ref(0);
@@ -51,7 +49,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative w-full h-[80%]">
+  <div class="relative w-full">
     <div class="carousel">
       <div
         class="carousel-content flex transition-transform duration-500 ease-in-out"
@@ -62,11 +60,11 @@ onUnmounted(() => {
           :key="index"
           class="carousel-item flex-none w-full"
         >
-          <div class="relative aspect-[21/9] overflow-hidden rounded-lg">
+          <div class="relative overflow-hidden rounded-lg">
             <img
               :src="slide.image"
               :alt="slide.alt"
-              class="object-cover w-full h-full"
+              class="object-contain w-full h-auto"
             />
             <div
               class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
