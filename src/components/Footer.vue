@@ -1,11 +1,11 @@
 Footer.vue:
 <template>
   <footer class="p-4 overflow-x-auto bg-white text-gray-900">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
       <div
         v-for="dealer in dealers"
         :key="dealer.name"
-        class="flex-shrink-0 w-full px-4 border-gray-200"
+        class="flex-shrink-0 w-full px-4 lg:px-24 border-gray-200"
       >
         <h2 class="font-bold text-lg mb-2">{{ dealer.name }}</h2>
         <p class="text-sm mb-2">

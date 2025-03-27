@@ -88,7 +88,7 @@ import { X } from "lucide-vue-next";
 const models = ref([
   {
     name: "F-150",
-    imageUrl: "/F-150.png",
+    imageUrl: "/F-150-2.png",
   },
   {
     name: "Bronco",
