@@ -15,6 +15,10 @@ Footer.vue:
             <div>{{ dealer.zip_code }}</div>
           </div>
         </p>
+        <p class="text-sm mb-4 flex items-center ml-2">
+          <i class="fas fa-phone-alt text-[#1C79C4] mr-2"></i>
+          {{ dealer.contact_number}}
+        </p>
         <!-- Use anchor tag for navigation -->
         <a
           :href="dealer.website_url"
@@ -55,6 +59,5 @@ onMounted(() => {
 </script>
 
 <style>
-/* Add Font Awesome for icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 </style>
