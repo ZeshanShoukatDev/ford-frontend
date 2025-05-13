@@ -21,7 +21,7 @@ const selectLocation = (location) => {
     <button
       @click="selectLocation('Louisville')"
       :class="[
-        'px-6 py-2 rounded-md border transition-all duration-300',
+        'w-1/3 px-6 py-3 rounded-md border transition-all duration-300 mr-4 sm:mr-16',
         activeLocation === 'Louisville'
           ? 'bg-white text-[#1C79C4] border-[#1C79C4] transform scale-110 shadow-lg'
           : 'bg-[#1C79C4] text-white hover:bg-white hover:text-[#1C79C4] hover:border-[#1C79C4]',
@@ -32,7 +32,7 @@ const selectLocation = (location) => {
     <button
       @click="selectLocation('TriCities')"
       :class="[
-        'px-6 py-2 rounded-md border transition-all duration-300',
+        'w-1/3 px-6 py-3 rounded-md border transition-all duration-300',
         activeLocation === 'TriCities'
           ? 'bg-white text-[#1C79C4] border-[#1C79C4] transform scale-110 shadow-lg'
           : 'bg-[#1C79C4] text-white hover:bg-white hover:text-[#1C79C4] hover:border-[#1C79C4]',
