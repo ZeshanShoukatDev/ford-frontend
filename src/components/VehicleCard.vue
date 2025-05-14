@@ -41,12 +41,8 @@ const navigateToHome = () => {
 
 const callDealer = () => {
   if (props.contactNumber) {
-    // Format the phone number by removing non-digit characters
     const formattedNumber = props.contactNumber.replace(/\D/g, "");
-
-    // Check device capabilities and choose the appropriate action
     if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
-      // For mobile devices, use the tel: protocol
       window.location.href = `tel:+1${formattedNumber}`;
     } else {
       const formattedDisplay = props.contactNumber;
@@ -67,7 +63,7 @@ const formatPrice = (price) => {
 
 <template>
   <div
-    class="card overflow-hidden rounded-lg transition-colors duration-200 relative bg-white text-gray-900 border border-gray-200"
+    class="card overflow-hidden transition-colors duration-200 relative bg-white text-gray-900 border border-black"
   >
     <div
       v-if="dealerName"
