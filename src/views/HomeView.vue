@@ -14,7 +14,7 @@
       <section class="perspective-1000">
         <h2 class="text-2xl font-bold mb-2 text-center">Select Model</h2>
         <p class="text-base mb-6 text-center">
-          Actual dealer price may vary. Contact dealer foe details.
+          Actual dealer price may vary. Contact dealer for details.
         </p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2 px-2">
           <ModelCard

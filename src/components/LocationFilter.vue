@@ -17,6 +17,7 @@ const selectLocation = (location) => {
 </script>
 
 <template>
+  <h2 class="text-2xl font-bold mb-2 sm:mb-8 text-center">Select Location</h2>
   <div class="flex justify-center space-x-4 pb-4">
     <button
       @click="selectLocation('Louisville')"

@@ -16,6 +16,23 @@
         >
       </h1>
 
+      <!-- Model Filter Buttons -->
+      <div class="flex justify-center gap-4 mb-8">
+        <button
+          v-for="model in availableModels"
+          :key="model"
+          @click="changeModel(model)"
+          :class="[
+            'w-1/3 px-6 py-3 transition-all duration-300 border border-black',
+            modelName === model
+              ? 'bg-[#1C79C4] text-lg font-semibold text-white'
+              : 'text-lg font-semibold hover:bg-gray-300',
+          ]"
+        >
+          {{ model }}
+        </button>
+      </div>
+
       <div v-if="isLoading" class="text-center py-12">
         <p class="text-xl">Loading inventory...</p>
       </div>
@@ -67,7 +84,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import Header from "@/components/Header.vue";
@@ -83,6 +100,8 @@ const isLoading = ref(true);
 const currentPage = ref(1);
 const itemsPerPage = 12;
 
+const availableModels = ["F-150", "Bronco Sport", "Escape"];
+
 const paginatedInventory = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
@@ -95,6 +114,18 @@ const totalPages = computed(() =>
 
 const goBack = () => {
   router.push({ name: "home" });
+};
+
+const changeModel = (model) => {
+  // Reset to page 1 when changing models
+  currentPage.value = 1;
+
+  // Update the URL with the new model while preserving location query if it exists
+  router.push({
+    name: "model-inventory",
+    params: { model },
+    query: selectedLocation.value ? { location: selectedLocation.value } : {},
+  });
 };
 
 const fetchInventory = async () => {
@@ -124,6 +155,11 @@ const fetchInventory = async () => {
     isLoading.value = false;
   }
 };
+
+// Watch for changes in model or location and refetch inventory
+watch([modelName, selectedLocation], () => {
+  fetchInventory();
+});
 
 onMounted(fetchInventory);
 </script>
