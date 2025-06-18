@@ -36,19 +36,6 @@ const navigateToDealer = () => {
   }
 };
 
-const navigateToHome = () => {
-  try {
-    const location = route.params.location;
-    if (location) {
-      router.push(`/homepage/${location}`);
-    } else {
-      router.push("/homepage");
-    }
-  } catch (error) {
-    console.error("Navigation error:", error);
-  }
-};
-
 const callDealer = () => {
   if (props.contactNumber) {
     const formattedNumber = props.contactNumber.replace(/\D/g, "");
@@ -117,7 +104,7 @@ const formatPrice = (price) => {
           </button>
 
           <button
-            @click="navigateToHome"
+            @click="navigateToDealer"
             class="w-full bg-yellow-400 border py-3 px-4 rounded flex items-center justify-center"
             aria-label="Return to home page"
           >
