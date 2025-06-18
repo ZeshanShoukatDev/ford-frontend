@@ -1,4 +1,3 @@
-Footer.vue:
 <template>
   <footer class="p-4 overflow-x-auto bg-white text-gray-900">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -15,9 +14,22 @@ Footer.vue:
             <div>{{ dealer.zip_code }}</div>
           </div>
         </p>
-        <p class="text-sm mb-4 flex items-center ml-2">
+        <p class="text-sm mb-2 flex items-center ml-2">
           <i class="fas fa-phone-alt text-[#1C79C4] mr-2"></i>
-          {{ dealer.contact_number}}
+          <a :href="`tel:+1${dealer.contact_number.replace(/\D/g, '')}`" class="text-[#1C79C4] hover:underline">
+            {{ dealer.contact_number }}
+          </a>
+        </p>
+        <p class="text-sm mb-4 flex items-center ml-2">
+          <i class="fas fa-directions text-[#1C79C4] mr-2"></i>
+          <a 
+            :href="getGoogleMapsUrl(dealer)"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[#1C79C4] hover:underline"
+          >
+            Get Directions
+          </a>
         </p>
         <!-- Use anchor tag for navigation -->
         <a
@@ -44,6 +56,14 @@ import axios from "axios";
 
 const dealers = ref([]);
 const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+const getGoogleMapsUrl = (dealer) => {
+  const address = encodeURIComponent(
+    `${dealer.address.split(',')[0]}, ${dealer.city}, ${dealer.state} ${dealer.zip_code}`
+  );
+  return `https://www.google.com/maps/search/?api=1&query=${address}`;
+};
+
 const fetchDealers = async () => {
   try {
     const response = await axios.get(`${baseURL}/ford-dealerships/`);
