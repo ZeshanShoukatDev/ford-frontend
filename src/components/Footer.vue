@@ -23,7 +23,7 @@
         <p class="text-sm mb-4 flex items-center ml-2">
           <i class="fas fa-directions text-[#1C79C4] mr-2"></i>
           <a 
-            :href="getGoogleMapsUrl(dealer)"
+            :href="dealer.google_maps_url"
             target="_blank"
             rel="noopener noreferrer"
             class="text-[#1C79C4] hover:underline"
@@ -56,13 +56,6 @@ import axios from "axios";
 
 const dealers = ref([]);
 const baseURL = import.meta.env.VITE_API_BASE_URL;
-
-const getGoogleMapsUrl = (dealer) => {
-  const address = encodeURIComponent(
-    `${dealer.address.split(',')[0]}, ${dealer.city}, ${dealer.state} ${dealer.zip_code}`
-  );
-  return `https://www.google.com/maps/search/?api=1&query=${address}`;
-};
 
 const fetchDealers = async () => {
   try {
