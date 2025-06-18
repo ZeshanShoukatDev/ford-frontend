@@ -34,7 +34,12 @@
       </div>
 
       <div v-if="isLoading" class="text-center py-12">
-        <p class="text-xl">Loading inventory...</p>
+        <div class="flex flex-col items-center">
+          <div
+            class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1C79C4] mb-4"
+          ></div>
+          <p class="text-xl">Loading inventory...</p>
+        </div>
       </div>
 
       <div v-else-if="inventory.length > 0" class="space-y-6">
@@ -84,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import Header from "@/components/Header.vue";
@@ -94,13 +99,38 @@ import Footer from "@/components/Footer.vue";
 const route = useRoute();
 const router = useRouter();
 const modelName = computed(() => route.params.model);
-const selectedLocation = computed(() => route.query.location || null);
+const selectedLocation = computed(() => route.params.location || null);
 const inventory = ref([]);
 const isLoading = ref(true);
 const currentPage = ref(1);
 const itemsPerPage = 12;
+const cachedData = ref(null);
+const lastFetch = ref(null);
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 const availableModels = ["F-150", "Bronco Sport", "Escape"];
+
+// Memoized filtering function
+const filterVehicles = (data, model, location) => {
+  if (!data) return [];
+
+  const normalizedSearchModel = model.toLowerCase().trim();
+  const normalizedLocation = location ? location.toLowerCase() : null;
+
+  return data.filter((vehicle) => {
+    const normalizedVehicleModel =
+      vehicle.build_model?.toLowerCase().trim() || "";
+    const modelMatches =
+      normalizedVehicleModel.includes(normalizedSearchModel) ||
+      normalizedSearchModel.includes(normalizedVehicleModel);
+
+    const locationMatches =
+      !normalizedLocation ||
+      vehicle.category?.toLowerCase() === normalizedLocation;
+
+    return modelMatches && locationMatches;
+  });
+};
 
 const paginatedInventory = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
@@ -113,42 +143,55 @@ const totalPages = computed(() =>
 );
 
 const goBack = () => {
-  router.push({ name: "home" });
+  if (selectedLocation.value) {
+    router.push(`/homepage/${selectedLocation.value}`);
+  } else {
+    router.push("/homepage");
+  }
 };
 
 const changeModel = (model) => {
-  // Reset to page 1 when changing models
   currentPage.value = 1;
+  if (selectedLocation.value) {
+    router.push(`/homepage/${selectedLocation.value}/inventory/${model}`);
+  } else {
+    router.push(`/homepage/inventory/${model}`);
+  }
+};
 
-  // Update the URL with the new model while preserving location query if it exists
-  router.push({
-    name: "model-inventory",
-    params: { model },
-    query: selectedLocation.value ? { location: selectedLocation.value } : {},
-  });
+const isCacheValid = () => {
+  return (
+    cachedData.value &&
+    lastFetch.value &&
+    Date.now() - lastFetch.value < CACHE_DURATION
+  );
 };
 
 const fetchInventory = async () => {
   isLoading.value = true;
 
   try {
-    const baseURL = import.meta.env.VITE_API_BASE_URL;
-    const response = await axios.get(`${baseURL}/ford-data/`);
+    let data;
 
-    // Filter vehicles by model and location if selected
-    const filteredVehicles = response.data.filter((vehicle) => {
-      const modelMatches =
-        vehicle.build_model?.toLowerCase() === modelName.value.toLowerCase() ||
-        vehicle.build_model === null;
+    // Check if we have valid cached data
+    if (isCacheValid()) {
+      data = cachedData.value;
+    } else {
+      const baseURL = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.get(`${baseURL}/ford-data/`);
+      data = response.data;
 
-      // If a location is selected, check if it matches
-      const locationMatches =
-        !selectedLocation.value || vehicle.category === selectedLocation.value;
+      // Update cache
+      cachedData.value = data;
+      lastFetch.value = Date.now();
+    }
 
-      return modelMatches && locationMatches;
-    });
-
-    inventory.value = filteredVehicles;
+    // Filter the data
+    inventory.value = filterVehicles(
+      data,
+      modelName.value,
+      selectedLocation.value
+    );
   } catch (error) {
     console.error("Error fetching inventory:", error);
   } finally {
@@ -156,10 +199,27 @@ const fetchInventory = async () => {
   }
 };
 
-// Watch for changes in model or location and refetch inventory
+// Debounced watch effect
+let timeout;
 watch([modelName, selectedLocation], () => {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    fetchInventory();
+  }, 300); // 300ms delay
+});
+
+onMounted(() => {
   fetchInventory();
 });
 
-onMounted(fetchInventory);
+// Cleanup
+onUnmounted(() => {
+  clearTimeout(timeout);
+});
 </script>
+
+<style scoped>
+.perspective-1000 {
+  perspective: 1000px;
+}
+</style>
