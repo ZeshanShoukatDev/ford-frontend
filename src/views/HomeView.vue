@@ -6,10 +6,6 @@
         <HeroSlider />
       </section>
 
-      <section>
-        <LocationFilter @location-selected="handleLocationSelect" />
-      </section>
-
       <!-- Model Categories -->
       <section class="perspective-1000">
         <h2 class="text-2xl font-bold mb-2 text-center">Select Model</h2>
@@ -23,7 +19,6 @@
             :name="model.name"
             :imageUrl="model.imageUrl"
             :isSelected="false"
-            :selectedLocation="selectedLocation"
           />
         </div>
       </section>
@@ -41,16 +36,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, provide } from "vue";
-import axios from "axios";
+import { ref, onMounted } from "vue";
 import Header from "@/components/Header.vue";
 import HeroSlider from "@/components/HeroSlider.vue";
 import ModelCard from "@/components/ModelCard.vue";
 import DealerMap from "@/components/DealerMap.vue";
 import Footer from "@/components/Footer.vue";
-import LocationFilter from "@/components/LocationFilter.vue";
 
-const selectedLocation = ref(null);
 const models = ref([
   {
     name: "F-150",
@@ -65,13 +57,6 @@ const models = ref([
     imageUrl: "/Escape.png",
   },
 ]);
-
-// Make selectedLocation available to child components via provide/inject
-provide("selectedLocation", selectedLocation);
-
-const handleLocationSelect = (location) => {
-  selectedLocation.value = location;
-};
 
 onMounted(() => {
   // Any initialization if needed

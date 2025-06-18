@@ -7,15 +7,43 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      redirect: "/homepage",
+    },
+    {
+      path: "/homepage",
+      name: "homepage",
       component: HomeView,
     },
     {
-      path: "/inventory/:model",
+      path: "/homepage/:location",
+      name: "homepage-with-location",
+      component: HomeView,
+    },
+    {
+      path: "/homepage/:location/inventory/:model",
       name: "model-inventory",
       component: ModelInventoryView,
+      props: true,
     },
   ],
+});
+
+// Navigation guard to check location
+router.beforeEach((to, from, next) => {
+  const validLocations = ["louisville", "tricities"];
+
+  if (to.name === "model-inventory" && !to.params.location) {
+    // If no location is set, redirect to homepage with a flag
+    next({
+      name: "homepage",
+      query: {
+        needLocation: "true",
+        intendedModel: to.params.model,
+      },
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

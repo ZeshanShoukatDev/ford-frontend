@@ -1,10 +1,11 @@
 <script setup>
 import { defineProps } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { PhoneIcon, StarIcon, TruckIcon } from "@heroicons/vue/24/solid";
 import VehicleImageSlider from "./VehicleImageSlider.vue";
 
 const router = useRouter();
+const route = useRoute();
 
 const props = defineProps({
   id: Number,
@@ -36,7 +37,16 @@ const navigateToDealer = () => {
 };
 
 const navigateToHome = () => {
-  router.push({ name: "home" });
+  try {
+    const location = route.params.location;
+    if (location) {
+      router.push(`/homepage/${location}`);
+    } else {
+      router.push("/homepage");
+    }
+  } catch (error) {
+    console.error("Navigation error:", error);
+  }
 };
 
 const callDealer = () => {
@@ -63,7 +73,7 @@ const formatPrice = (price) => {
 
 <template>
   <div
-    class="card overflow-hidden transition-colors duration-200 relative bg-white text-gray-900 border border-black"
+    class="card overflow-hidden rounded-lg transition-colors duration-200 relative bg-white text-gray-900 border border-gray-200"
   >
     <div
       v-if="dealerName"
