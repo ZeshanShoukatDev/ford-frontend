@@ -18,21 +18,39 @@ const props = defineProps({
   vdpUrl: String,
   dealerName: String,
   contactNumber: String,
+  dealerContactURL: String,
 });
 
 const getImageUrls = () => {
   const urls = [];
-  if (props.media_url1) urls.push(props.media_url1);
-  if (props.media_url2) urls.push(props.media_url2);
-  if (props.media_url3) urls.push(props.media_url3);
+  if (props.media_url1) urls.push(ensureHttps(props.media_url1));
+  if (props.media_url2) urls.push(ensureHttps(props.media_url2));
+  if (props.media_url3) urls.push(ensureHttps(props.media_url3));
   // If no media URLs are provided, use the legacy imageUrl prop as fallback
-  if (urls.length === 0 && props.imageUrl) urls.push(props.imageUrl);
+  if (urls.length === 0 && props.imageUrl)
+    urls.push(ensureHttps(props.imageUrl));
   return urls;
+};
+
+const ensureHttps = (url) => {
+  if (!url) return url;
+  // Convert HTTP to HTTPS to prevent mixed content warnings
+  return url.replace(/^http:\/\//i, "https://");
 };
 
 const navigateToDealer = () => {
   if (props.vdpUrl) {
     window.open(props.vdpUrl, "_blank");
+  }
+};
+
+const navigateToDealerContact = () => {
+  if (props.dealerContactURL) {
+    window.open(props.dealerContactURL, "_blank");
+  } else {
+    alert(
+      "Dealer contact information is not available at the moment. Please try calling the dealer directly."
+    );
   }
 };
 
@@ -104,7 +122,7 @@ const formatPrice = (price) => {
           </button>
 
           <button
-            @click="navigateToDealer"
+            @click="navigateToDealerContact"
             class="w-full bg-yellow-400 border py-3 px-4 rounded flex items-center justify-center"
             aria-label="Return to home page"
           >

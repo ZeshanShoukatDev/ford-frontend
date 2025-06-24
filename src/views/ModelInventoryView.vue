@@ -56,6 +56,7 @@
             :vdpUrl="vehicle.vdp_url"
             :dealerName="vehicle.dealer_name"
             :contactNumber="vehicle.dealer_phone"
+            :dealerContactURL="vehicle.dealer_contact_url"
           />
         </div>
 
