@@ -51,20 +51,49 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
+import { useRoute } from "vue-router";
 import axios from "axios";
 
+const route = useRoute();
 const dealers = ref([]);
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
+// Get current location from route params
+const currentLocation = computed(() => route.params.location || null);
+
 const fetchDealers = async () => {
   try {
-    const response = await axios.get(`${baseURL}/ford-dealerships/`);
+    let endpoint;
+    
+    // Determine which endpoint to use based on location
+    if (currentLocation.value === 'louisville') {
+      endpoint = `${baseURL}/louisville-dealerships/`;
+    } else {
+      // Default to tricities or when no location is specified
+      endpoint = `${baseURL}/ford-dealerships/`;
+    }
+    
+    const response = await axios.get(endpoint);
     dealers.value = response.data;
   } catch (error) {
     console.error("Error fetching dealer data:", error);
+    // Fallback to default endpoint if the location-specific one fails
+    if (currentLocation.value === 'louisville') {
+      try {
+        const fallbackResponse = await axios.get(`${baseURL}/ford-dealerships/`);
+        dealers.value = fallbackResponse.data;
+      } catch (fallbackError) {
+        console.error("Error fetching fallback dealer data:", fallbackError);
+      }
+    }
   }
 };
+
+// Watch for location changes and refetch data
+watch(currentLocation, () => {
+  fetchDealers();
+}, { immediate: false });
 
 onMounted(() => {
   fetchDealers();

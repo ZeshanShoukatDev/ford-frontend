@@ -58,15 +58,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
+import { useRoute } from "vue-router";
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+const route = useRoute();
 const zipCode = ref("");
 const map = ref(null);
 const nearestDealer = ref(null);
 const dealers = ref([]);
+
+// Get current location from route params
+const currentLocation = computed(() => route.params.location || null);
 
 const defaultMapView = {
   latitude: 36.71763973293212,
@@ -130,23 +135,42 @@ function handleInputChange() {
   }
 }
 
-onMounted(() => {
-  initMap();
-  fetchDealers();
-});
-
 const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 async function fetchDealers() {
   try {
-    const response = await axios.get(`${baseURL}/ford-dealerships/`);
+    let endpoint;
+
+    // Determine which endpoint to use based on location
+    if (currentLocation.value === "louisville") {
+      endpoint = `${baseURL}/louisville-dealerships/`;
+    } else if (currentLocation.value === "tricities") {
+      endpoint = `${baseURL}/ford-dealerships/`;
+    } else {
+      // If no specific location is set, don't show any dealers
+      dealers.value = [];
+      updateMapMarkers();
+      return;
+    }
+
+    const response = await axios.get(endpoint);
     dealers.value = response.data;
     updateMapMarkers();
   } catch (error) {
     console.error("Error fetching dealerships:", error);
+    dealers.value = [];
+    updateMapMarkers();
   }
 }
 
 function updateMapMarkers() {
+  // Clear existing markers
+  map.value.eachLayer((layer) => {
+    if (layer instanceof L.Marker) {
+      map.value.removeLayer(layer);
+    }
+  });
+
   const bounds = []; // Store all marker positions for fitBounds
 
   dealers.value.forEach((dealer) => {
@@ -165,8 +189,12 @@ function updateMapMarkers() {
 
     marker.addTo(map.value).bindPopup(
       `<b>${dealer.name}</b><br>
-         ${dealer.address}, ${dealer.city}, ${dealer.state} ${dealer.zip_code}<br>
-         <a href="${dealer.website}" target="_blank" style="color:blue; text-decoration:underline;">
+         ${dealer.address}, ${dealer.city}, ${dealer.state} ${
+        dealer.zip_code
+      }<br>
+         <a href="${
+           dealer.website_url || dealer.website
+         }" target="_blank" style="color:blue; text-decoration:underline;">
            Visit Website
          </a>`
     );
@@ -190,6 +218,20 @@ function initMap() {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value);
 }
+
+// Watch for location changes and refetch data
+watch(
+  currentLocation,
+  () => {
+    fetchDealers();
+  },
+  { immediate: false }
+);
+
+onMounted(() => {
+  initMap();
+  fetchDealers();
+});
 </script>
 
 <style scoped>
