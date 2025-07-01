@@ -3,24 +3,13 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 const slides = [
   {
-    image: "/CSFD-Jan-Digital-970x250-Escape.png",
-    alt: "Ford Mustang GT on display",
-    // title: "The All-New Mustang",
-    // subtitle: "Experience Pure Power",
+    image: "/F-150_970x250.jpg",
+    alt: "Ford F-150 on display",
   },
   {
-    image: "/CSFD-Jan-Digital-970x250-F-150.png",
+    image: "/Bronco_970x250.jpg",
     alt: "Ford Bronco in adventure setting",
-    // title: "2024 Bronco",
-    // subtitle: "Built Wild™",
   },
-  // {
-  //   image:
-  //     "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?q=80&w=2000",
-  //   alt: "Ford F-150 truck",
-  //   title: "F-150 Lightning",
-  //   subtitle: "The Future of Tough",
-  // },
 ];
 
 const currentSlide = ref(0);
