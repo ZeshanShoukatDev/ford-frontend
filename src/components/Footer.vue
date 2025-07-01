@@ -2,7 +2,7 @@
   <footer class="p-4 overflow-x-auto bg-white text-gray-900">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
       <div
-        v-for="dealer in dealers"
+        v-for="dealer in sortedDealers"
         :key="dealer.name"
         class="flex-shrink-0 w-full px-4 lg:px-24 border-gray-200"
       >
@@ -61,6 +61,11 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 // Get current location from route params
 const currentLocation = computed(() => route.params.location || null);
+
+// Sort dealers alphabetically by name
+const sortedDealers = computed(() => {
+  return [...dealers.value].sort((a, b) => a.name.localeCompare(b.name));
+});
 
 const fetchDealers = async () => {
   try {
