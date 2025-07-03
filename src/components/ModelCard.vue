@@ -13,27 +13,25 @@ const props = defineProps({
 
 const navigateToInventory = () => {
   const currentLocation = route.params.location;
+  const validLocations = ["louisville", "tricities", "bluefield", "lexington"];
 
   if (!currentLocation) {
     // If no location is set, show location prompt
     const location = prompt(
-      "Please enter your location (louisville or tricities):"
+      "Please enter your location (louisville, tricities, bluefield, or lexington):"
     );
-    if (
-      location &&
-      ["louisville", "tricities"].includes(location.toLowerCase())
-    ) {
-      router.push(`/homepage/${location.toLowerCase()}`);
+    if (location && validLocations.includes(location.toLowerCase())) {
+      router.push(`/${location.toLowerCase()}`);
     } else if (location) {
       alert(
-        'Invalid location. Please enter either "louisville" or "tricities".'
+        'Invalid location. Please enter "louisville", "tricities", "bluefield", or "lexington".'
       );
     }
     return;
   }
 
   // If location is set, navigate to inventory with location in the path
-  router.push(`/homepage/${currentLocation}/inventory/${props.name}`);
+  router.push(`/${currentLocation}/inventory/${props.name.toLowerCase()}`);
 };
 </script>
 
