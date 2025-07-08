@@ -43,8 +43,7 @@
     </div>
     <div class="mt-20 border-t pt-4 text-center text-sm text-gray-600">
       <p>
-        &copy; {{ new Date().getFullYear() }} Ford Dealership. All rights
-        reserved.
+        &copy; Copyright {{ new Date().getFullYear() }} Site Designed By November Digital and Associates.
       </p>
     </div>
   </footer>
@@ -74,13 +73,23 @@ const fetchDealers = async () => {
     // Determine which endpoint to use based on location
     if (currentLocation.value === 'louisville') {
       endpoint = `${baseURL}/louisville-dealerships/`;
+    } else if (['bluefield', 'lexington'].includes(currentLocation.value)) {
+      endpoint = `${baseURL}/other-dealerships/`;
     } else {
       // Default to tricities or when no location is specified
       endpoint = `${baseURL}/ford-dealerships/`;
     }
     
     const response = await axios.get(endpoint);
-    dealers.value = response.data;
+    
+    // Filter dealers based on market for bluefield and lexington
+    if (['bluefield', 'lexington'].includes(currentLocation.value)) {
+      dealers.value = response.data.filter(dealer => 
+        dealer.market.toLowerCase() === currentLocation.value.toLowerCase()
+      );
+    } else {
+      dealers.value = response.data;
+    }
   } catch (error) {
     console.error("Error fetching dealer data:", error);
     // Fallback to default endpoint if the location-specific one fails

@@ -145,18 +145,18 @@ const totalPages = computed(() =>
 
 const goBack = () => {
   if (selectedLocation.value) {
-    router.push(`/homepage/${selectedLocation.value}`);
+    router.push(`/${selectedLocation.value}`);
   } else {
-    router.push("/homepage");
+    router.push("/");
   }
 };
 
 const changeModel = (model) => {
   currentPage.value = 1;
   if (selectedLocation.value) {
-    router.push(`/homepage/${selectedLocation.value}/inventory/${model}`);
+    router.push(`/${selectedLocation.value}/inventory/${model}`);
   } else {
-    router.push(`/homepage/inventory/${model}`);
+    router.push(`/inventory/${model}`);
   }
 };
 

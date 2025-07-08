@@ -7,20 +7,17 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/homepage",
-    },
-    {
-      path: "/homepage",
-      name: "homepage",
+      name: "home",
       component: HomeView,
     },
     {
-      path: "/homepage/:location",
-      name: "homepage-with-location",
+      path: "/:location",
+      name: "location-home",
       component: HomeView,
+      props: true,
     },
     {
-      path: "/homepage/:location/inventory/:model",
+      path: "/:location/inventory/:model",
       name: "model-inventory",
       component: ModelInventoryView,
       props: true,
@@ -30,17 +27,18 @@ const router = createRouter({
 
 // Navigation guard to check location
 router.beforeEach((to, from, next) => {
-  const validLocations = ["louisville", "tricities"];
+  const validLocations = ["louisville", "tricities", "bluefield", "lexington"];
 
-  if (to.name === "model-inventory" && !to.params.location) {
-    // If no location is set, redirect to homepage with a flag
-    next({
-      name: "homepage",
-      query: {
-        needLocation: "true",
-        intendedModel: to.params.model,
-      },
-    });
+  if (
+    to.name === "location-home" &&
+    !validLocations.includes(to.params.location)
+  ) {
+    next({ name: "home" });
+  } else if (
+    to.name === "model-inventory" &&
+    !validLocations.includes(to.params.location)
+  ) {
+    next({ name: "home" });
   } else {
     next();
   }

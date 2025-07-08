@@ -6,8 +6,8 @@
         <HeroSlider />
       </section>
 
-      <!-- Model Categories -->
-      <section class="perspective-1000">
+      <!-- Model Categories - Only shown when location is present -->
+      <section v-if="$route.params.location" class="perspective-1000">
         <h2 class="text-2xl font-bold mb-2 text-center">Select Model</h2>
         <p class="text-base mb-6 text-center">
           Actual dealer price may vary. Contact dealer for details.
@@ -19,6 +19,7 @@
             :name="model.name"
             :imageUrl="model.imageUrl"
             :isSelected="false"
+            @click="navigateToInventory(model.name)"
           />
         </div>
       </section>
@@ -37,11 +38,15 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import Header from "@/components/Header.vue";
 import HeroSlider from "@/components/HeroSlider.vue";
 import ModelCard from "@/components/ModelCard.vue";
 import DealerMap from "@/components/DealerMap.vue";
 import Footer from "@/components/Footer.vue";
+
+const router = useRouter();
+const route = useRoute();
 
 const models = ref([
   {
@@ -57,6 +62,10 @@ const models = ref([
     imageUrl: "/Escape.png",
   },
 ]);
+
+const navigateToInventory = (modelName) => {
+  router.push(`/${route.params.location}/inventory/${modelName.toLowerCase()}`);
+};
 
 onMounted(() => {
   // Any initialization if needed

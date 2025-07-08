@@ -73,11 +73,28 @@ const dealers = ref([]);
 // Get current location from route params
 const currentLocation = computed(() => route.params.location || null);
 
-const defaultMapView = {
-  latitude: 36.71763973293212,
-  longitude: -81.87871595367429,
-  zoom: 7,
-};
+const defaultMapView = computed(() => {
+  switch (currentLocation.value) {
+    case "bluefield":
+      return {
+        latitude: 37.8004,
+        longitude: -80.8036,
+        zoom: 9,
+      };
+    case "lexington":
+      return {
+        latitude: 38.0406,
+        longitude: -84.5037,
+        zoom: 9,
+      };
+    default:
+      return {
+        latitude: 36.71763973293212,
+        longitude: -81.87871595367429,
+        zoom: 7,
+      };
+  }
+});
 
 function zipDistance(zip1, zip2) {
   return Math.abs(parseInt(zip1) - parseInt(zip2));
@@ -123,8 +140,8 @@ function findNearestDealer() {
 
 function resetMap() {
   map.value.setView(
-    [defaultMapView.latitude, defaultMapView.longitude],
-    defaultMapView.zoom
+    [defaultMapView.value.latitude, defaultMapView.value.longitude],
+    defaultMapView.value.zoom
   );
   nearestDealer.value = null;
 }
@@ -144,6 +161,8 @@ async function fetchDealers() {
     // Determine which endpoint to use based on location
     if (currentLocation.value === "louisville") {
       endpoint = `${baseURL}/louisville-dealerships/`;
+    } else if (["bluefield", "lexington"].includes(currentLocation.value)) {
+      endpoint = `${baseURL}/other-dealerships/`;
     } else if (currentLocation.value === "tricities") {
       endpoint = `${baseURL}/ford-dealerships/`;
     } else {
@@ -154,7 +173,17 @@ async function fetchDealers() {
     }
 
     const response = await axios.get(endpoint);
-    dealers.value = response.data;
+
+    // Filter dealers based on market for bluefield and lexington
+    if (["bluefield", "lexington"].includes(currentLocation.value)) {
+      dealers.value = response.data.filter(
+        (dealer) =>
+          dealer.market.toLowerCase() === currentLocation.value.toLowerCase()
+      );
+    } else {
+      dealers.value = response.data;
+    }
+
     updateMapMarkers();
   } catch (error) {
     console.error("Error fetching dealerships:", error);
@@ -210,8 +239,8 @@ function updateMapMarkers() {
 
 function initMap() {
   map.value = L.map("map").setView(
-    [defaultMapView.latitude, defaultMapView.longitude],
-    defaultMapView.zoom
+    [defaultMapView.value.latitude, defaultMapView.value.longitude],
+    defaultMapView.value.zoom
   );
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
