@@ -33,6 +33,7 @@
         </p>
         <!-- Use anchor tag for navigation -->
         <a
+          v-if="dealer.name !== 'Lawhorn Ford Sales'"
           :href="dealer.website_url"
           target="_blank"          
           class="w-full mt-2 px-4 py-2 rounded transition-colors duration-200 text-sm border bg-white text-[#1C79C4] border-[#1C79C4] hover:text-white hover:bg-[#1C79C4]"
@@ -43,7 +44,7 @@
     </div>
     <div class="mt-20 border-t pt-4 text-center text-sm text-gray-600">
       <p>
-        &copy; {{ new Date().getFullYear() }} Site Designed By November Digital and Associates.
+        &copy; Copyright {{ new Date().getFullYear() }} Site Designed By November Digital and Associates.
       </p>
     </div>
   </footer>
