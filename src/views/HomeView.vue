@@ -6,8 +6,16 @@
         <HeroSlider />
       </section>
 
-      <!-- Model Categories - Only shown when location is present -->
-      <section v-if="$route.params.location" class="perspective-1000">
+      <!-- Model Categories - Only shown when location is present and not Bluefield/Lexington -->
+      <section
+        v-if="
+          $route.params.location &&
+          !['bluefield', 'lexington'].includes(
+            $route.params.location.toLowerCase()
+          )
+        "
+        class="perspective-1000"
+      >
         <h2 class="text-2xl font-bold mb-2 text-center">Select Model</h2>
         <p class="text-base mb-6 text-center">
           Actual dealer price may vary. Contact dealer for details.
