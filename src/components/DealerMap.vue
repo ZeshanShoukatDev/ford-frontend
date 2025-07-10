@@ -69,6 +69,7 @@ const zipCode = ref("");
 const map = ref(null);
 const nearestDealer = ref(null);
 const dealers = ref([]);
+const geocodes = ref([]); // Add geocodes ref
 
 // Get current location from route params
 const currentLocation = computed(() => route.params.location || null);
@@ -100,6 +101,21 @@ function zipDistance(zip1, zip2) {
   return Math.abs(parseInt(zip1) - parseInt(zip2));
 }
 
+// Add function to fetch geocodes
+async function fetchGeocodes() {
+  try {
+    if (!currentLocation.value) return;
+
+    const endpoint = `${baseURL}/${currentLocation.value}-geocodes/`;
+    console.log("Fetching geocodes from:", endpoint);
+    const response = await axios.get(endpoint);
+    geocodes.value = response.data;
+  } catch (error) {
+    console.error("Error fetching geocodes:", error);
+    geocodes.value = [];
+  }
+}
+
 function findNearestDealer() {
   const enteredZip = zipCode.value.trim();
   if (!enteredZip) {
@@ -107,6 +123,71 @@ function findNearestDealer() {
     return;
   }
 
+  console.log("Searching for zip code:", enteredZip);
+  console.log("Available geocodes:", geocodes.value);
+
+  // First check if the zip code matches any geocodes
+  const matchingGeocode = geocodes.value.find((g) => g.geo_code === enteredZip);
+  console.log("Matching geocode:", matchingGeocode);
+
+  if (matchingGeocode) {
+    console.log("Available dealers:", dealers.value);
+
+    // Normalize dealer names by removing common suffixes and whitespace
+    const normalizeDealer = (name) => {
+      return name
+        .replace(/, Inc\.?$/, "") // Remove ', Inc' or ', Inc.'
+        .replace(/ Inc\.?$/, "") // Remove ' Inc' or ' Inc.'
+        .replace(/\s+/g, " ") // Normalize multiple spaces
+        .trim(); // Remove leading/trailing spaces
+    };
+
+    // Find the dealer that matches the reporting label
+    const matchingDealer = dealers.value.find(
+      (d) =>
+        normalizeDealer(d.name) ===
+        normalizeDealer(matchingGeocode.reporting_label)
+    );
+    console.log(
+      "Normalized geocode label:",
+      normalizeDealer(matchingGeocode.reporting_label)
+    );
+    console.log(
+      "Available normalized dealer names:",
+      dealers.value.map((d) => normalizeDealer(d.name))
+    );
+    console.log("Matching dealer:", matchingDealer);
+
+    if (matchingDealer) {
+      nearestDealer.value = matchingDealer;
+      map.value.setView(
+        [matchingDealer.latitude, matchingDealer.longitude],
+        14
+      );
+
+      const markers = Object.values(map.value._layers);
+      const matchingMarker = markers.find(
+        (layer) =>
+          layer instanceof L.Marker &&
+          layer
+            .getLatLng()
+            .equals(
+              L.latLng([matchingDealer.latitude, matchingDealer.longitude])
+            )
+      );
+      if (matchingMarker) {
+        matchingMarker.openPopup();
+      }
+      return;
+    } else {
+      console.log(
+        "No dealer found matching the reporting label:",
+        matchingGeocode.reporting_label
+      );
+    }
+  }
+
+  // If no match found in geocodes, fall back to nearest dealer calculation
   let nearest = null;
   let minDistance = Infinity;
 
@@ -253,6 +334,7 @@ watch(
   currentLocation,
   () => {
     fetchDealers();
+    fetchGeocodes();
   },
   { immediate: false }
 );
@@ -260,6 +342,7 @@ watch(
 onMounted(() => {
   initMap();
   fetchDealers();
+  fetchGeocodes(); // Add fetchGeocodes call
 });
 </script>
 
