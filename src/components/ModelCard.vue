@@ -1,15 +1,35 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useSelectedModel } from "../composables/useSelectedModel";
 
 const router = useRouter();
 const route = useRoute();
 
+const { setSelectedModel } = useSelectedModel();
+
 const props = defineProps({
-  name: String,
-  imageUrl: String,
-  isSelected: Boolean,
+  name: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  isSelected: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(["click"]);
+
+const handleClick = () => {
+  setSelectedModel(props.name);
+  emit("click");
+  navigateToInventory();
+};
 
 const navigateToInventory = () => {
   const currentLocation = route.params.location;
@@ -21,7 +41,11 @@ const navigateToInventory = () => {
       "Please enter your location (louisville, tricities, bluefield, or lexington):"
     );
     if (location && validLocations.includes(location.toLowerCase())) {
-      router.push(`/${location.toLowerCase()}`);
+      router.push(
+        `/${location.toLowerCase()}/inventory/${props.name
+          .toLowerCase()
+          .replace(" ", "-")}`
+      );
     } else if (location) {
       alert(
         'Invalid location. Please enter "louisville", "tricities", "bluefield", or "lexington".'
@@ -31,21 +55,18 @@ const navigateToInventory = () => {
   }
 
   // If location is set, navigate to inventory with location in the path
-  router.push(`/${currentLocation}/inventory/${props.name.toLowerCase()}`);
+  router.push(
+    `/${currentLocation}/inventory/${props.name
+      .toLowerCase()
+      .replace(" ", "-")}`
+  );
 };
 </script>
 
 <template>
   <div
-    :class="[
-      'card overflow-hidden rounded-lg border border-gray-400 shadow-md transition-all duration-300 ease-in-out',
-      {
-        'bg-white text-gray-900': true,
-        'transform scale-105 z-6': isSelected,
-        'transform scale-90 translate-z-6': !isSelected,
-      },
-    ]"
-    class="transition-all transform-gpu hover:scale-95"
+    class="relative overflow-hidden rounded-lg border bg-white text-gray-900 shadow-sm transition-all duration-200 hover:shadow-lg cursor-pointer"
+    @click="handleClick"
   >
     <div class="card-content p-0">
       <div class="aspect-[3/2] relative">

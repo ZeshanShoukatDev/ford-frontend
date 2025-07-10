@@ -42,7 +42,7 @@
         </a>
       </div>
     </div>
-    <div class="mt-20 border-t pt-4 text-center text-sm text-gray-600">
+    <div class="mt-20 border-t pt-4 text-center text-sm text-gray-600 mb-16">
       <p>
         &copy; Copyright {{ new Date().getFullYear() }} Site Designed By November Digital and Associates.
       </p>

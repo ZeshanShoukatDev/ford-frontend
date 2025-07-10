@@ -96,10 +96,29 @@ import axios from "axios";
 import Header from "@/components/Header.vue";
 import VehicleCard from "@/components/VehicleCard.vue";
 import Footer from "@/components/Footer.vue";
+import { useSelectedModel } from "../composables/useSelectedModel";
 
 const route = useRoute();
 const router = useRouter();
-const modelName = computed(() => route.params.model);
+const { setSelectedModel } = useSelectedModel();
+const modelName = computed(() => {
+  const model = route.params.model;
+  // Convert model param to proper case
+  if (model === "f-150") return "F-150";
+  if (model === "bronco-sport") return "Bronco Sport";
+  if (model === "escape") return "Escape";
+  return model;
+});
+
+// Watch for model changes and update selected model
+watch(
+  modelName,
+  (newModel) => {
+    setSelectedModel(newModel);
+  },
+  { immediate: true }
+);
+
 const selectedLocation = computed(() => route.params.location || null);
 const inventory = ref([]);
 const isLoading = ref(true);

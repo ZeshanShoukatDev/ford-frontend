@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import Header from "@/components/Header.vue";
 import HeroSlider from "@/components/HeroSlider.vue";
@@ -55,6 +55,7 @@ import Footer from "@/components/Footer.vue";
 
 const router = useRouter();
 const route = useRoute();
+const selectedModel = ref(null);
 
 const models = ref([
   {
@@ -72,11 +73,17 @@ const models = ref([
 ]);
 
 const navigateToInventory = (modelName) => {
+  selectedModel.value = modelName;
   router.push(`/${route.params.location}/inventory/${modelName.toLowerCase()}`);
 };
 
 onMounted(() => {
   // Any initialization if needed
+});
+
+// Reset selected model when route changes
+watch(route, () => {
+  selectedModel.value = null;
 });
 </script>
 
