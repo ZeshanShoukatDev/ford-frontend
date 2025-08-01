@@ -25,15 +25,7 @@
       <div v-if="selectedModel === 'F-150'" class="text-center pr-8">
         <strong class="block mb-1">2024 FORD F-150 XLT 2.7L</strong>
         <p>
-          *$1,000 XLT Crew Cab Retail Bonus Cash, $2,000 2.7L Engine Retail
-          Bonus Cash, $1,000 XLT Trade Assist Cash. Not all buyers will qualify
-          for Ford Credit APR financing. 3.9% APR financing for 72 months at
-          $15.60 per month per $1,000 financed regardless of down payment (PGM
-          #21406). Take new retail delivery or place a new retail order from an
-          authorized Ford Dealer's stock by 7/7/25. See dealer for residency
-          restriction, qualifications, and details. Some models, trims, and
-          features may not be available and may be subject to change. See dealer
-          for details.
+          $6000 Retail Customer Cash (PGM#11496 )and $2000 Retail Trade Assist Cash (PGM#31136). For all offers, take new retail delivery from an authorized Ford Dealer’s stock by 8/4/25. See dealer for qualifications and complete details. Complimentary 2-year Maintenance Plan available on select Ford vehicles. Coverage begins at the new vehicle limited warranty start date for 2 years or up to 25,000 miles, whichever occurs first. Transferrable for a fee. See your dealer for a complete list of coverage details and limitations. Please contact your Ford Dealer for the most current inventory status.
         </p>
       </div>
       <div
@@ -42,15 +34,7 @@
       >
         <strong class="block mb-1">2024 FORD BRONCO SPORT</strong>
         <p>
-          *Optional equipment and extra-cost color option shown. Offer available
-          on the purchase or lease of the following eligible new 2024 Bronco
-          Sport. U.S. residents only. Prior purchases not eligible. A/X/Z/D Plan
-          ineligible. Place a new retail order or take new retail delivery from
-          an authorized Ford Dealer's stock by 7/7/25. See a participating
-          dealer or retailer for details. $2,000 Retail Customer Cash (PGM
-          #11438). Residency restrictions apply. For all offers, take new retail
-          delivery from an authorized Ford Dealer's stock by 7/7/25. See dealer
-          for qualifications and complete details.
+          Security deposit waived, taxes, title and license fees extra. With Equipment Group 200A. Not all buyers will qualify for Ford Credit Red Carpet Lease. Payments may vary; dealer determines price. Residency restrictions apply. Cash due at signing is after $1,000 Summer Sales Event RCL Cash (PGM #50634). Lessee responsible for excess wear and mileage over 31,500 miles at $0.20 per mile. Take new retail delivery from an authorized Ford Dealer’s stock by 9/2/25. See dealer for qualifications and complete details. Vehicle shown may have optional equipment not included in payment. ²Complimentary 2-year Maintenance Plan available on select Ford vehicles. Coverage begins at the new vehicle limited warranty start date for 2 years or up to 25,000 miles, whichever occurs first. Transferrable for a fee. See your dealer for a complete list of coverage details and limitations.
         </p>
       </div>
     </div>
