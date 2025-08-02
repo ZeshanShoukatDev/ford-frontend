@@ -1,75 +1,70 @@
 <template>
   <div
-    v-if="selectedModel && isDisclaimerVisible"
-    class="sticky bottom-0 left-0 right-0 bg-gray-900 text-white text-xs py-2 px-4 z-50 mt-4"
+    v-if="shouldShowDisclaimers"
+    class="bg-white text-white text-xs py-4 px-4 mt-4"
   >
-    <div class="container mx-auto relative">
-      <button
-        @click="hideDisclaimer"
-        class="absolute right-2 top-2 text-white hover:text-gray-300 focus:outline-none"
-        aria-label="Close disclaimer"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </button>
-      <div v-if="selectedModel === 'F-150'" class="text-center pr-8">
-        <strong class="block mb-1">2024 FORD F-150 XLT 2.7L</strong>
-        <p>
-          *$1,000 XLT Crew Cab Retail Bonus Cash, $2,000 2.7L Engine Retail
-          Bonus Cash, $1,000 XLT Trade Assist Cash. Not all buyers will qualify
-          for Ford Credit APR financing. 3.9% APR financing for 72 months at
-          $15.60 per month per $1,000 financed regardless of down payment (PGM
-          #21406). Take new retail delivery or place a new retail order from an
-          authorized Ford Dealer's stock by 7/7/25. See dealer for residency
-          restriction, qualifications, and details. Some models, trims, and
-          features may not be available and may be subject to change. See dealer
-          for details.
-        </p>
-      </div>
-      <div
-        v-else-if="selectedModel === 'Bronco Sport'"
-        class="text-center pr-8"
-      >
-        <strong class="block mb-1">2024 FORD BRONCO SPORT</strong>
-        <p>
-          *Optional equipment and extra-cost color option shown. Offer available
-          on the purchase or lease of the following eligible new 2024 Bronco
-          Sport. U.S. residents only. Prior purchases not eligible. A/X/Z/D Plan
-          ineligible. Place a new retail order or take new retail delivery from
-          an authorized Ford Dealer's stock by 7/7/25. See a participating
-          dealer or retailer for details. $2,000 Retail Customer Cash (PGM
-          #11438). Residency restrictions apply. For all offers, take new retail
-          delivery from an authorized Ford Dealer's stock by 7/7/25. See dealer
-          for qualifications and complete details.
-        </p>
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- F-150 Disclaimer -->
+        <div class="bg-[#1C79C4] p-4 rounded">
+          <div class="text-center">
+            <strong class="block mb-1">2024 FORD F-150 XLT 2.7L</strong>
+            <p>
+              *$1,000 XLT Crew Cab Retail Bonus Cash, $2,000 2.7L Engine Retail
+              Bonus Cash, $1,000 XLT Trade Assist Cash. Not all buyers will
+              qualify for Ford Credit APR financing. 3.9% APR financing for 72
+              months at $15.60 per month per $1,000 financed regardless of down
+              payment (PGM #21406). Take new retail delivery or place a new
+              retail order from an authorized Ford Dealer's stock by 7/7/25. See
+              dealer for residency restriction, qualifications, and details.
+              Some models, trims, and features may not be available and may be
+              subject to change. See dealer for details.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bronco Sport Disclaimer -->
+        <div class="bg-[#1C79C4] p-4 rounded">
+          <div class="text-center">
+            <strong class="block mb-1">2024 FORD BRONCO SPORT</strong>
+            <p>
+              *Optional equipment and extra-cost color option shown. Offer
+              available on the purchase or lease of the following eligible new
+              2024 Bronco Sport. U.S. residents only. Prior purchases not
+              eligible. A/X/Z/D Plan ineligible. Place a new retail order or
+              take new retail delivery from an authorized Ford Dealer's stock by
+              7/7/25. See a participating dealer or retailer for details. $2,000
+              Retail Customer Cash (PGM #11438). Residency restrictions apply.
+              For all offers, take new retail delivery from an authorized Ford
+              Dealer's stock by 7/7/25. See dealer for qualifications and
+              complete details.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-import { useSelectedModel } from "../composables/useSelectedModel";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
-const props = defineProps({
-  selectedModel: {
-    type: String,
-    required: false,
-    default: null,
-  },
+const route = useRoute();
+
+// Define the locations where permanent disclaimers should be shown
+// Excluding tricities and louisville since they have dynamic disclaimers
+const disclaimerLocations = [
+  "tricities",
+  "louisville",
+  "bluefield",
+  "lexington",
+];
+
+// Check if disclaimers should be shown based on current location
+const shouldShowDisclaimers = computed(() => {
+  return disclaimerLocations.includes(route.params.location);
 });
-
-const { isDisclaimerVisible, hideDisclaimer } = useSelectedModel();
 </script>
 
 <style scoped>
