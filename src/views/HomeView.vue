@@ -10,7 +10,7 @@
       <section
         v-if="
           $route.params.location &&
-          !['bluefield', 'lexington'].includes(
+          !['bluefield', 'lexington', 'charleston', 'evansville'].includes(
             $route.params.location.toLowerCase()
           )
         "
@@ -47,6 +47,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useSelectedModel } from "@/composables/useSelectedModel";
 import Header from "@/components/Header.vue";
 import HeroSlider from "@/components/HeroSlider.vue";
 import ModelCard from "@/components/ModelCard.vue";
@@ -55,7 +56,7 @@ import Footer from "@/components/Footer.vue";
 
 const router = useRouter();
 const route = useRoute();
-const selectedModel = ref(null);
+const { setSelectedModel } = useSelectedModel();
 
 const models = ref([
   {
@@ -73,7 +74,7 @@ const models = ref([
 ]);
 
 const navigateToInventory = (modelName) => {
-  selectedModel.value = modelName;
+  setSelectedModel(modelName);
   router.push(`/${route.params.location}/inventory/${modelName.toLowerCase()}`);
 };
 
@@ -83,7 +84,7 @@ onMounted(() => {
 
 // Reset selected model when route changes
 watch(route, () => {
-  selectedModel.value = null;
+  // The composable handles resetting when location changes
 });
 </script>
 
