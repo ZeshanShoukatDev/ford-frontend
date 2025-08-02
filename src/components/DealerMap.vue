@@ -161,10 +161,11 @@ function findNearestDealer() {
     if (matchingDealer) {
       nearestDealer.value = matchingDealer;
       map.value.setView(
-        [matchingDealer.latitude, matchingDealer.longitude],
+        [parseFloat(matchingDealer.latitude), parseFloat(matchingDealer.longitude)],
         14
       );
 
+      // Find the marker and update its popup to use reporting_label
       const markers = Object.values(map.value._layers);
       const matchingMarker = markers.find(
         (layer) =>
@@ -172,10 +173,17 @@ function findNearestDealer() {
           layer
             .getLatLng()
             .equals(
-              L.latLng([matchingDealer.latitude, matchingDealer.longitude])
+              L.latLng([parseFloat(matchingDealer.latitude), parseFloat(matchingDealer.longitude)])
             )
       );
       if (matchingMarker) {
+        matchingMarker.setPopupContent(
+          `<b>${matchingGeocode.reporting_label}</b><br>
+             ${matchingDealer.address}, ${matchingDealer.city}, ${matchingDealer.state} ${matchingDealer.zip_code}<br>
+             <a href="${matchingDealer.website_url || matchingDealer.website}" target="_blank" style="color:blue; text-decoration:underline;">
+               Visit Website
+             </a>`
+        );
         matchingMarker.openPopup();
       }
       return;
@@ -237,17 +245,35 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 async function fetchDealers() {
   try {
-    let endpoint;
+    // HOMEPAGE: No location param
+    if (!currentLocation.value) {
+      // Fetch all three APIs in parallel
+      const [ford, louisville, other] = await Promise.all([
+        axios.get(`${baseURL}/ford-dealerships/`),
+        axios.get(`${baseURL}/louisville-dealerships/`),
+        axios.get(`${baseURL}/other-dealerships/`),
+      ]);
+      // Merge all results
+      dealers.value = [
+        ...ford.data,
+        ...louisville.data,
+        ...other.data,
+      ];
+      updateMapMarkers();
+      return;
+    }
 
-    // Determine which endpoint to use based on location
+    // EXISTING LOGIC for market-specific pages
+    let endpoint;
     if (currentLocation.value === "louisville") {
       endpoint = `${baseURL}/louisville-dealerships/`;
     } else if (["bluefield", "lexington"].includes(currentLocation.value)) {
       endpoint = `${baseURL}/other-dealerships/`;
-    } else if (currentLocation.value === "tricities") {
+    } else if (
+      ["tricities", "charleston", "evansville"].includes(currentLocation.value)
+    ) {
       endpoint = `${baseURL}/ford-dealerships/`;
     } else {
-      // If no specific location is set, don't show any dealers
       dealers.value = [];
       updateMapMarkers();
       return;
@@ -255,10 +281,11 @@ async function fetchDealers() {
 
     const response = await axios.get(endpoint);
 
-    // Filter dealers based on market for bluefield and lexington
+    // Filter for bluefield/lexington
     if (["bluefield", "lexington"].includes(currentLocation.value)) {
       dealers.value = response.data.filter(
         (dealer) =>
+          dealer.market &&
           dealer.market.toLowerCase() === currentLocation.value.toLowerCase()
       );
     } else {
@@ -284,7 +311,14 @@ function updateMapMarkers() {
   const bounds = []; // Store all marker positions for fitBounds
 
   dealers.value.forEach((dealer) => {
-    const marker = L.marker([dealer.latitude, dealer.longitude], {
+    const lat = parseFloat(dealer.latitude);
+    const lng = parseFloat(dealer.longitude);
+    if (isNaN(lat) || isNaN(lng)) {
+      // Optionally log or skip invalid dealer
+      console.warn("Skipping dealer with invalid coordinates:", dealer);
+      return;
+    }
+    const marker = L.marker([lat, lng], {
       icon: L.icon({
         iconUrl:
           "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
@@ -309,7 +343,7 @@ function updateMapMarkers() {
          </a>`
     );
 
-    bounds.push([dealer.latitude, dealer.longitude]); // Add marker position to bounds
+    bounds.push([lat, lng]); // Add marker position to bounds
   });
 
   // Set the map to fit all markers
