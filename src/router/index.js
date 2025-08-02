@@ -27,7 +27,7 @@ const router = createRouter({
 
 // Navigation guard to check location
 router.beforeEach((to, from, next) => {
-  const validLocations = ["louisville", "tricities", "bluefield", "lexington"];
+  const validLocations = ["louisville", "tricities", "bluefield", "lexington", "charleston", "evansville"];
 
   if (
     to.name === "location-home" &&
