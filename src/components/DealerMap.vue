@@ -88,6 +88,24 @@ const defaultMapView = computed(() => {
         longitude: -84.5037,
         zoom: 9,
       };
+    case "charleston":
+      return {
+        latitude: 38.3498,
+        longitude: -81.6326,
+        zoom: 9,
+      };
+    case "evansville":
+      return {
+        latitude: 37.9716,
+        longitude: -87.5711,
+        zoom: 9,
+      };
+    case "louisville":
+      return {
+        latitude: 38.2527,
+        longitude: -85.7585,
+        zoom: 9,
+      };
     default:
       return {
         latitude: 36.71763973293212,
@@ -267,11 +285,9 @@ async function fetchDealers() {
     let endpoint;
     if (currentLocation.value === "louisville") {
       endpoint = `${baseURL}/louisville-dealerships/`;
-    } else if (["bluefield", "lexington"].includes(currentLocation.value)) {
+    } else if (["bluefield", "lexington", "charleston", "evansville"].includes(currentLocation.value)) {
       endpoint = `${baseURL}/other-dealerships/`;
-    } else if (
-      ["tricities", "charleston", "evansville"].includes(currentLocation.value)
-    ) {
+    } else if (currentLocation.value === "tricities") {
       endpoint = `${baseURL}/ford-dealerships/`;
     } else {
       dealers.value = [];
@@ -281,8 +297,8 @@ async function fetchDealers() {
 
     const response = await axios.get(endpoint);
 
-    // Filter for bluefield/lexington
-    if (["bluefield", "lexington"].includes(currentLocation.value)) {
+    // Filter for locations that use other-dealerships endpoint
+    if (["bluefield", "lexington", "charleston", "evansville"].includes(currentLocation.value)) {
       dealers.value = response.data.filter(
         (dealer) =>
           dealer.market &&
