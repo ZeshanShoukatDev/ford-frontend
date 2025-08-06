@@ -16,6 +16,9 @@
         >
       </h1>
 
+      <!-- Model Image Slider for Tricities and Louisville -->
+      <ModelImageSlider :modelName="modelName" />
+
       <!-- Model Filter Buttons -->
       <div class="flex justify-center gap-4 mb-8">
         <button
@@ -96,6 +99,7 @@ import axios from "axios";
 import Header from "@/components/Header.vue";
 import VehicleCard from "@/components/VehicleCard.vue";
 import Footer from "@/components/Footer.vue";
+import ModelImageSlider from "@/components/ModelImageSlider.vue";
 import { useSelectedModel } from "../composables/useSelectedModel";
 
 const route = useRoute();
