@@ -64,7 +64,10 @@ const disclaimerLocations = [
 
 // Check if disclaimers should be shown based on current location
 const shouldShowDisclaimers = computed(() => {
-  return disclaimerLocations.includes(route.params.location);
+  // Show on main page ("/") or on the specified locations
+  return (
+    route.path === "/" || disclaimerLocations.includes(route.params.location)
+  );
 });
 </script>
 
