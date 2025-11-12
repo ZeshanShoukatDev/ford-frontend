@@ -22,9 +22,11 @@ const shouldShowSlider = computed(() => {
 // Get the appropriate image based on model
 const modelImage = computed(() => {
   if (props.modelName === "F-150") {
-    return "/970x250_F-150.png";
+    return "/970x250-F150.jpg";
   } else if (props.modelName === "Bronco Sport") {
-    return "/970x250_Bronco_S (1).png";
+    return "/970x250-Bronco_S.jpg";
+  } else if (props.modelName === "Escape") {
+    return "/970x250-Escape.jpg";
   }
   return null;
 });
@@ -34,7 +36,7 @@ const shouldShowImage = computed(() => {
   return (
     shouldShowSlider.value &&
     modelImage.value &&
-    ["F-150", "Bronco Sport"].includes(props.modelName)
+    ["F-150", "Bronco Sport", "Escape"].includes(props.modelName)
   );
 });
 </script>

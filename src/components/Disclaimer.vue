@@ -54,20 +54,18 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 // Define the locations where permanent disclaimers should be shown
-// Excluding tricities and louisville since they have dynamic disclaimers
+// Excluding main pages and tricities/louisville since they now have VehicleTerms
 const disclaimerLocations = [
-  "tricities",
-  "louisville",
   "bluefield",
   "lexington",
+  "charleston",
+  "evansville",
 ];
 
 // Check if disclaimers should be shown based on current location
 const shouldShowDisclaimers = computed(() => {
-  // Show on main page ("/") or on the specified locations
-  return (
-    route.path === "/" || disclaimerLocations.includes(route.params.location)
-  );
+  // Only show on specific locations (not main page, tricities, or louisville)
+  return disclaimerLocations.includes(route.params.location);
 });
 </script>
 

@@ -69,7 +69,8 @@ const { selectedModel, isDisclaimerVisible, hideDisclaimer } =
   useSelectedModel();
 
 // Define the locations where dynamic disclaimers should be shown
-const dynamicDisclaimerLocations = ["tricities", "louisville"];
+// Empty array since we're moving terms to the bottom for tricities and louisville
+const dynamicDisclaimerLocations = [];
 
 // Define the models that should show disclaimers
 const disclaimerModels = ["F-150", "Bronco Sport"];
