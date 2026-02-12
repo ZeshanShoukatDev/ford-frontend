@@ -3,16 +3,16 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 const slides = [
   {
-    image: "/970x250-F150.jpg",
+    image: "/ford_f150.png",
     alt: "Ford F-150 on display",
   },
   {
-    image: "/970x250-Bronco_S.jpg",
+    image: "/ford_bronco.jpeg",
     alt: "Ford Bronco in adventure setting",
   },
   {
-    image: "/970x250-Escape.jpg",
-    alt: "Escape Inventory",
+    image: "/ford_escape.jpeg",
+    alt: "Ford Escape next gateway car",
   }
 ];
 

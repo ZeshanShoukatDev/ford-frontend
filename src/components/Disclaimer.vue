@@ -55,12 +55,7 @@ const route = useRoute();
 
 // Define the locations where permanent disclaimers should be shown
 // Excluding main pages and tricities/louisville since they now have VehicleTerms
-const disclaimerLocations = [
-  "bluefield",
-  "lexington",
-  "charleston",
-  "evansville",
-];
+const disclaimerLocations = [];
 
 // Check if disclaimers should be shown based on current location
 const shouldShowDisclaimers = computed(() => {

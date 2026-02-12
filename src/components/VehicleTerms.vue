@@ -6,52 +6,51 @@
       <div class="flex flex-col md:flex-row gap-8 items-start">
         <div class="flex-1">
           <p class="text-sm text-gray-700">
-            <strong>F-150 Terms:</strong> $1,250 Retail Bonus Cash on MY 25 F-150 2.7L (PG #11510). $1,250 Retail Trade Assist Cash on 25MY F-150 STX (PG#31136). Not all buyers will qualify for Ford Credit financing. 3.9% APR financing for 72 months at $15.60 per month per $1,000 financed regardless of down payment. Residency restrictions apply. Available on 25MY F-150 STX. For all offers, take new retail delivery from an authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details.
+            <strong>F-150 Terms:</strong> $3,250 Retail Bonus Cash on MY 25 F-150 XLT 2.7L (PG #'s 11670,11672). Not all buyers will qualify for Ford Credit financing. 3.9% APR financing for 72 months at $15.60 per month per $1,000 financed regardless of down payment. Residency restrictions apply. For all offers, take new retail delivery from an authorized Ford Dealer’s stock by 3/2/26. See dealer for qualifications and complete details.
           </p>
         </div>
       </div>
 
       <!-- Bronco Sport Terms -->
-      <div class="flex flex-col md:flex-row gap-8 items-start">
+      <!-- <div class="flex flex-col md:flex-row gap-8 items-start">
         <div class="flex-1">
           <p class="text-sm text-gray-700">
             <strong>Bronco Sport Big Bend Terms:</strong> Security Deposit waived, taxes title and license fees extra. With Equipment Group 200A. Not all buyers will qualify for Ford Credit Red Carpet Lease. Payments may vary, dealer determines price. Residency restrictions apply. Cash due at signing is after $1,000 RCL Customer Cash (PG #50082 ). Lessee responsible for excess wear and mileage over 31,500 miles at $0.20 per mile. Take new retail delivery from authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details. Vehicle shown may have optional equipment not included in payment.
           </p>
         </div>
-      </div>
+      </div> -->
 
       <!-- Escape Terms -->
-      <div class="flex flex-col md:flex-row gap-8 items-start">
+<!--      <div class="flex flex-col md:flex-row gap-8 items-start">
         <div class="flex-1">
           <p class="text-sm text-gray-700">
             <strong>Escape Terms:</strong> $4,000 Open Bonus Cash (PG #11510). Residency restrictions apply. For all offers, take new retail delivery from an authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
-
     <!-- Inventory pages for TriCities and Louisville: Show only the selected model's terms -->
     <div v-else-if="isInventoryPage" class="mt-2">
       <!-- F-150 Terms -->
       <div v-if="currentModel === 'F-150'">
         <p class="text-xs text-gray-600 text-center content-justify px-2 sm:px-12">
-          <strong>F-150 Terms:</strong> $1,250 Retail Bonus Cash on MY 25 F-150 2.7L (PG #11510). $1,250 Retail Trade Assist Cash on 25MY F-150 STX (PG#31136). Not all buyers will qualify for Ford Credit financing. 3.9% APR financing for 72 months at $15.60 per month per $1,000 financed regardless of down payment. Residency restrictions apply. Available on 25MY F-150 STX. For all offers, take new retail delivery from an authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details.
-        </p>
+          <strong>F-150 Terms:</strong> $3,250 Retail Bonus Cash on MY 25 F-150 XLT 2.7L (PG #'s 11670,11672). Not all buyers will qualify for Ford Credit financing. 3.9% APR financing for 72 months at $15.60 per month per $1,000 financed regardless of down payment. Residency restrictions apply. For all offers, take new retail delivery from an authorized Ford Dealer’s stock by 3/2/26. See dealer for qualifications and complete details.        </p>
       </div>
 
       <!-- Bronco Sport Terms -->
-      <div v-else-if="currentModel === 'Bronco Sport'">
+      <!--<div v-else-if="currentModel === 'Bronco Sport'">
         <p class="text-xs text-gray-600 text-center content-justify px-2 sm:px-12">
           <strong>Bronco Sport Big Bend Terms:</strong> Security Deposit waived, taxes title and license fees extra. With Equipment Group 200A. Not all buyers will qualify for Ford Credit Red Carpet Lease. Payments may vary, dealer determines price. Residency restrictions apply. Cash due at signing is after $1,000 RCL Customer Cash (PG #50082 ). Lessee responsible for excess wear and mileage over 31,500 miles at $0.20 per mile. Take new retail delivery from authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details. Vehicle shown may have optional equipment not included in payment.
         </p>
-      </div>
+      </div>-->
 
       <!-- Escape Terms -->
-      <div v-else-if="currentModel === 'Escape'">
+   <!--   <div v-else-if="currentModel === 'Escape'">
         <p class="text-xs text-gray-600 text-center content-justify px-2 sm:px-12">
           <strong>Escape Terms:</strong> $4,000 Open Bonus Cash (PG #11510). Residency restrictions apply. For all offers, take new retail delivery from an authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details
         </p>
       </div>
+-->
     </div>
   </div>
 </template>

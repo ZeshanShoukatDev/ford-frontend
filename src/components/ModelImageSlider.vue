@@ -22,11 +22,11 @@ const shouldShowSlider = computed(() => {
 // Get the appropriate image based on model
 const modelImage = computed(() => {
   if (props.modelName === "F-150") {
-    return "/970x250-F150.jpg";
+    return "/ford_f150.png";
   } else if (props.modelName === "Bronco Sport") {
-    return "/970x250-Bronco_S.jpg";
+    return "/ford_bronco.jpeg";
   } else if (props.modelName === "Escape") {
-    return "/970x250-Escape.jpg";
+    return "/ford_escape.jpeg";
   }
   return null;
 });
