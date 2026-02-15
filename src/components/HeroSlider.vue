@@ -1,30 +1,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { useBanner } from "@/composables/useBanner";
 
-const slides = [
-  {
-    image: "/ford_f150.png",
-    alt: "Ford F-150 on display",
-  },
-  {
-    image: "/ford_bronco.jpeg",
-    alt: "Ford Bronco in adventure setting",
-  },
-  {
-    image: "/ford_escape.jpeg",
-    alt: "Ford Escape next gateway car",
-  }
-];
-
+const { slides, fetchGlobalData } = useBanner();
 const currentSlide = ref(0);
 let intervalId;
 
 const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % slides.length;
+  currentSlide.value = (currentSlide.value + 1) % slides.value.length;
 };
 
 const prevSlide = () => {
-  currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length;
+  currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
 };
 
 const goToSlide = (index) => {
@@ -36,13 +23,14 @@ onMounted(() => {
   intervalId = setInterval(nextSlide, 3000); // Change slide every 3 seconds
 });
 
+
 onUnmounted(() => {
   clearInterval(intervalId); // Clean up interval
 });
 </script>
 
 <template>
-  <div class="relative w-full">
+  <div class="relative w-full max-h-[400px]">
     <div class="carousel">
       <div
         class="carousel-content flex transition-transform duration-500 ease-in-out"
@@ -57,7 +45,7 @@ onUnmounted(() => {
             <img
               :src="slide.image"
               :alt="slide.alt"
-              class="object-contain w-full h-auto"
+              class="object-cover w-full max-h-[400px]"
             />
             <div
               class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"

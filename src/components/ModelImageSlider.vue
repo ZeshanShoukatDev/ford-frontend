@@ -1,8 +1,10 @@
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useBanner } from "@/composables/useBanner";
 
 const route = useRoute();
+const { getModelImage, fetchData } = useBanner();
 
 const props = defineProps({
   modelName: {
@@ -11,33 +13,15 @@ const props = defineProps({
   },
 });
 
-// Define the locations where this slider should be shown
-const validLocations = ["tricities", "louisville"];
 
-// Check if we should show the slider based on current location
-const shouldShowSlider = computed(() => {
-  return validLocations.includes(route.params.location);
-});
-
-// Get the appropriate image based on model
+// Get the appropriate image based on model and location dynamically via the store
 const modelImage = computed(() => {
-  if (props.modelName === "F-150") {
-    return "/ford_f150.png";
-  } else if (props.modelName === "Bronco Sport") {
-    return "/ford_bronco.jpeg";
-  } else if (props.modelName === "Escape") {
-    return "/ford_escape.jpeg";
-  }
-  return null;
+  return getModelImage(props.modelName);
 });
 
-// Check if we should show the image for the current model
+// Show if we have an image
 const shouldShowImage = computed(() => {
-  return (
-    shouldShowSlider.value &&
-    modelImage.value &&
-    ["F-150", "Bronco Sport", "Escape"].includes(props.modelName)
-  );
+  return !!modelImage.value;
 });
 </script>
 
@@ -46,8 +30,8 @@ const shouldShowImage = computed(() => {
     <div class="relative overflow-hidden rounded-lg">
       <img
         :src="modelImage"
-        :alt="`${modelName} on display`"
-        class="object-contain w-full h-auto"
+        :alt="`${props.modelName} on display`"
+        class="object-cover w-full max-h-[400px]"
       />
       <div
         class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
