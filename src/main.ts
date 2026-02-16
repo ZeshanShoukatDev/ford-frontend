@@ -5,8 +5,9 @@ import { createPinia } from "pinia";
 // @ts-ignore
 import App from "./App.vue";
 // @ts-ignore
-import router from "./router";
+import router from "./router/index.js";
 import { useFordStore } from "./stores/fordStore.js";
+import 'vue3-toastify/dist/index.css'
 
 const app = createApp(App);
 

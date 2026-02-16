@@ -1,33 +1,58 @@
 <script setup lang="ts">
-import { RouterView, useRoute } from "vue-router";
+import { computed, onMounted, watch } from "vue";
+import { useRoute, RouterView } from "vue-router";
+
+// @ts-ignore
+import MainLayout from "@/layouts/admin/MainLayout.vue";
+// @ts-ignore
+import Overlay from "@/components/admin/base/Overlay.vue";
+// @ts-ignore
+import { useAuthStore } from "@/stores/admin/auth";
+
 // @ts-ignore
 import { provideSelectedModel } from "./composables/useSelectedModel";
 // @ts-ignore
 import DynamicDisclaimer from "./components/DynamicDisclaimer.vue";
-import { watch } from "vue";
 
 const route = useRoute();
+
+// Detect if current route is admin
+const isAdminRoute = computed(() => route.path.startsWith("/admin"));
+
+const authStore = useAuthStore();
+
+const layout = computed(() => {
+  if (!isAdminRoute.value) return "default";
+  return route.meta.layout || "default";
+});
+
+onMounted(() => {
+  if (isAdminRoute.value) {
+    authStore.loadUser();
+  }
+});
+
+
 const { selectedModel, resetDisclaimer } = provideSelectedModel();
 
-// Define models that should show disclaimers
+// Models that should show disclaimers
 const disclaimerModels = ["F-150", "Bronco Sport"];
 
-// Reset disclaimer when location changes or when going back to main page
 watch(
   () => [route.params.location, route.params.model],
   () => {
-    // Reset disclaimer when there's no model (main page) or when model doesn't have disclaimers
+    if (isAdminRoute.value) return;
+
     if (!route.params.model) {
       resetDisclaimer();
     } else {
-      // Convert model param to proper case for comparison
       const modelParam = route.params.model as string;
       let modelName = modelParam;
+
       if (modelParam === "f-150") modelName = "F-150";
       if (modelParam === "bronco-sport") modelName = "Bronco Sport";
       if (modelParam === "escape") modelName = "Escape";
 
-      // If the model doesn't have disclaimers, reset the disclaimer
       if (!disclaimerModels.includes(modelName)) {
         resetDisclaimer();
       }
@@ -37,6 +62,26 @@ watch(
 </script>
 
 <template>
-  <DynamicDisclaimer />
-  <RouterView />
+  <div id="app">
+    <template v-if="isAdminRoute">
+      <MainLayout v-if="layout === 'main'">
+        <RouterView />
+      </MainLayout>
+
+      <RouterView v-else />
+
+      <Overlay />
+    </template>
+
+    <template v-else>
+      <DynamicDisclaimer />
+      <RouterView />
+    </template>
+  </div>
 </template>
+
+<style scoped>
+#app {
+  min-height: 100vh;
+}
+</style>

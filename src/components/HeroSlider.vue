@@ -1,8 +1,16 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useBanner } from "@/composables/useBanner";
 
-const { slides, fetchGlobalData } = useBanner();
+const props = defineProps({
+  slides: {
+    type: Array,
+    default: null
+  }
+});
+
+const { slides: composableSlides, fetchGlobalData } = useBanner();
+const slides = computed(() => props.slides || composableSlides.value);
 const currentSlide = ref(0);
 let intervalId;
 
