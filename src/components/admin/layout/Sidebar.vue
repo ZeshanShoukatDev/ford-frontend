@@ -71,7 +71,8 @@ import {
   BuildingStorefrontIcon,
   FolderIcon,
   UsersIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+  DocumentTextIcon
 } from '@heroicons/vue/24/outline'
 
 import { useUIStore } from '@/stores/admin/ui'
@@ -83,7 +84,7 @@ const { sidebarCollapsed: isCollapsed } = storeToRefs(uiStore)
 
 const menuItems = [
   { label: 'Banner Configurations', path: '/banner-configurations', icon: PhotoIcon },
-
+  { label: 'Terms Configurations', path: '/terms-configurations', icon: DocumentTextIcon },
 ]
 
 const sidebarClasses = computed(() => {

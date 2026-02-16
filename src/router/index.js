@@ -55,6 +55,12 @@ const adminRoutes = [
         meta: { requiresAuth: true, layout: "main", isAdmin: true },
       },
       {
+        path: "terms-configurations",
+        name: "TermsConfigurations",
+        component: () => import("../views/admin/TermsConfiguration.vue"),
+        meta: { requiresAuth: true, layout: "main", isAdmin: true },
+      },
+      {
         path: "dealers",
         name: "Dealers",
         component: () => import("../views/admin/Dashboard.vue"),

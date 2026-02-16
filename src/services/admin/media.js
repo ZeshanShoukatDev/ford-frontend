@@ -1,18 +1,17 @@
 import api from './api'
 
 export const mediaService = {
-    async getCategoryBanners(params = {}) {
-        const response = await api.get('/category-banners/', { params })
+    async getBanners(params = {}) {
+        const response = await api.get('/banners/', { params })
         return response.data
     },
 
-    async uploadBanner(file, category, modelName) {
+    async uploadBanner(file, type) {
         const formData = new FormData()
         formData.append('file', file)
-        formData.append('category', category)
-        formData.append('model_name', modelName)
+        formData.append('type', type)
 
-        const response = await api.post('/category-banners/upload-banner/', formData, {
+        const response = await api.post('/banners/upload-banner/', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
         return response.data
@@ -23,24 +22,24 @@ export const mediaService = {
         formData.append('file', file)
         formData.append('format', format)
 
-        const response = await api.post('/category-banners/bulk-import/', formData, {
+        const response = await api.post('/banners/bulk-import/', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
         return response.data
     },
 
     async createBanner(data) {
-        const response = await api.post('/category-banners/', data)
+        const response = await api.post('/banners/', data)
         return response.data
     },
 
     async updateBanner(id, data) {
-        const response = await api.patch(`/category-banners/${id}/`, data)
+        const response = await api.patch(`/banners/${id}/`, data)
         return response.data
     },
 
     async deleteBanner(id) {
-        const response = await api.delete(`/category-banners/${id}/`)
+        const response = await api.delete(`/banners/${id}/`)
         return response.data
     }
 }

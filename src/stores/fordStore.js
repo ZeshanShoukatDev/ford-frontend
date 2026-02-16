@@ -18,7 +18,7 @@ export const useFordStore = defineStore("ford", () => {
 
         try {
             const [bannersRes] = await Promise.all([
-                axios.get(`${baseURL}/category-banners/`),
+                axios.get(`${baseURL}/banners/`),
             ]);
 
             banners.value = bannersRes.data;
@@ -32,12 +32,10 @@ export const useFordStore = defineStore("ford", () => {
         }
     }
 
-
-
-    const getBannersByCategory = (category) => {
-        if (!category) return null;
+    const getBannerByType = (type) => {
+        if (!type) return null;
         return banners.value.find(
-            (b) => b.category.toLowerCase() === category.toLowerCase() && b.is_active
+            (b) => b.type.toLowerCase() === type.toLowerCase() && b.is_active
         );
     };
 
@@ -47,6 +45,6 @@ export const useFordStore = defineStore("ford", () => {
         error,
         isLoaded,
         fetchAllData,
-        getBannersByCategory,
+        getBannerByType,
     };
 });

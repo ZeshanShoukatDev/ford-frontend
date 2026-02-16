@@ -22,34 +22,20 @@ export function useBanner() {
     ];
 
     const slides = computed(() => {
-        const currentLocation = route.params.location;
-        if (!currentLocation) return fallbackSlides;
-
-        const categoryBanner = store.getBannersByCategory(currentLocation);
-
-        if (categoryBanner && categoryBanner.banner_url) {
-            const urls = categoryBanner.banner_url;
-            return [
-                {
-                    image: urls["f-150"] || "/ford_f150.png",
-                    alt: "Ford F-150 on display",
-                },
-                {
-                    image: urls["bronco-sport"] || "/ford_bronco.jpeg",
-                    alt: "Ford Bronco in adventure setting",
-                },
-                {
-                    image: urls["escape"] || "/ford_escape.jpeg",
-                    alt: "Ford Escape next gateway car",
-                }
-            ];
+        if (store.banners.length > 0) {
+            return store.banners
+                .filter(b => b.is_active)
+                .map(b => ({
+                    image: b.url,
+                    alt: `Ford ${b.type}`,
+                    title: b.type.toUpperCase()
+                }));
         }
 
         return fallbackSlides;
     });
 
     const getModelImage = (modelName) => {
-        const currentLocation = route.params.location;
         const normalizedModel = modelName?.toLowerCase().replace(/\s+/g, '-');
 
         // Default mapping for hardcoded/fallback local images
@@ -59,15 +45,8 @@ export function useBanner() {
             'escape': '/ford_escape.jpeg'
         };
 
-        if (!currentLocation) return defaultImages[normalizedModel];
-
-        const categoryBanner = store.getBannersByCategory(currentLocation);
-
-        if (categoryBanner && categoryBanner.banner_url) {
-            return categoryBanner.banner_url[normalizedModel] || defaultImages[normalizedModel];
-        }
-
-        return defaultImages[normalizedModel];
+        const banner = store.getBannerByType(normalizedModel);
+        return banner ? banner.url : defaultImages[normalizedModel];
     };
 
     return {

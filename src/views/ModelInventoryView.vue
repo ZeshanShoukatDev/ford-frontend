@@ -23,16 +23,16 @@
       <div class="flex justify-center gap-4 mb-8">
         <button
           v-for="model in availableModels"
-          :key="model"
-          @click="changeModel(model)"
+          :key="model.value"
+          @click="changeModel(model.value)"
           :class="[
             'w-1/3 px-6 py-3 transition-all duration-300 border border-black',
-            modelName === model
+            modelName === model.value
               ? 'bg-[#1C79C4] text-lg font-semibold text-white'
               : 'text-lg font-semibold hover:bg-gray-300',
           ]"
         >
-          {{ model }}
+          {{ model.label }}
         </button>
       </div>
 
@@ -101,7 +101,7 @@ import VehicleCard from "@/components/VehicleCard.vue";
 import Footer from "@/components/Footer.vue";
 import ModelImageSlider from "@/components/ModelImageSlider.vue";
 import { useSelectedModel } from "../composables/useSelectedModel";
-
+import { modelOptions } from "@/utils/constants";
 const route = useRoute();
 const router = useRouter();
 const { setSelectedModel } = useSelectedModel();
@@ -132,8 +132,7 @@ const cachedData = ref(null);
 const lastFetch = ref(null);
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-const availableModels = ["F-150", "Bronco Sport", "Escape"];
-
+const availableModels = modelOptions
 // Memoized filtering function
 const filterVehicles = (data, model, location) => {
   if (!data) return [];
