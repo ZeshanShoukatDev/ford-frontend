@@ -114,7 +114,7 @@ const handleLogin = async () => {
       password: form.value.password
     })
     if (response.success) {
-      router.push('/admin/dashboard')
+      router.push('/admin/banner-configurations')
     } else {
       errors.value.username = response.error
     }
