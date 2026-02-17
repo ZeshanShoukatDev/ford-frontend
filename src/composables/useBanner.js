@@ -22,14 +22,14 @@ export function useBanner() {
     ];
 
     const slides = computed(() => {
-        if (store.banners.length > 0) {
-            return store.banners
-                .filter(b => b.is_active)
-                .map(b => ({
-                    image: b.url,
-                    alt: `Ford ${b.type}`,
-                    title: b.type.toUpperCase()
-                }));
+        const activeBanners = store.banners.filter(b => b.is_active);
+
+        if (activeBanners.length > 0) {
+            return activeBanners.map(b => ({
+                image: b.url,
+                alt: `Ford ${b.type}`,
+                title: b.type.toUpperCase()
+            }));
         }
 
         return fallbackSlides;

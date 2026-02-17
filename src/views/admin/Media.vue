@@ -105,10 +105,21 @@
               <p class="text-xs text-secondary-500 mt-1 truncate">ID: {{ banner.id }}</p>
             </div>
             
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-4">
+              <div class="flex items-center justify-between p-3 bg-secondary-50 rounded-xl border border-secondary-100">
+                <span class="text-xs font-semibold text-secondary-600 uppercase tracking-wider">Display</span>
+                <Toggle 
+                  :modelValue="banner.is_active" 
+                  @update:modelValue="toggleActiveStatus(banner)" 
+                />
+              </div>
+
               <div class="grid grid-cols-2 gap-2">
                 <Button variant="outline" size="sm" class="justify-center" @click="editBanner(banner)">
                   <PencilSquareIcon class="w-4 h-4 mr-2" /> Edit
+                </Button>
+                <Button variant="ghost" size="sm" class="justify-center hover:bg-danger-50 hover:text-danger-600" @click="openDeleteModal(banner)">
+                  <TrashIcon class="w-4 h-4" />
                 </Button>
               </div>
               <Button variant="ghost" size="sm" class="justify-center w-full" @click="copyUrl(banner.url)">
@@ -160,6 +171,14 @@
             @change="handleFileSelect" 
             accept="image/*" 
           />
+        </div>
+
+        <div class="flex items-center justify-between p-4 bg-secondary-50 rounded-2xl">
+          <div>
+            <p class="font-semibold text-secondary-900">Active Status</p>
+            <p class="text-xs text-secondary-500">Enable or disable this banner from the public site</p>
+          </div>
+          <Toggle v-model="uploadForm.is_active" />
         </div>
 
         <div class="flex justify-end gap-3 mt-8">
@@ -259,6 +278,7 @@ import Input from '@/components/admin/base/Input.vue'
 import Select from '@/components/admin/base/Select.vue'
 import Badge from '@/components/admin/base/Badge.vue'
 import Modal from '@/components/admin/base/Modal.vue'
+import Toggle from '@/components/admin/base/Toggle.vue'
 import HeroSlider from '@/components/HeroSlider.vue'
 import { mediaService } from '@/services/admin/media'
 import { toast } from 'vue3-toastify'
@@ -376,6 +396,19 @@ const handleUpload = async () => {
     toast.error(error.response?.data?.message || 'Operation failed')
   } finally {
     isUploading.value = false
+  }
+}
+
+const toggleActiveStatus = async (banner) => {
+  const originalStatus = banner.is_active
+  banner.is_active = !originalStatus
+  
+  try {
+    await mediaService.updateBanner(banner.id, { is_active: banner.is_active })
+    toast.success(`Banner ${banner.is_active ? 'activated' : 'deactivated'}`)
+  } catch (error) {
+    banner.is_active = originalStatus
+    toast.error('Failed to update status')
   }
 }
 
