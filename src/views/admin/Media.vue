@@ -135,6 +135,7 @@
           label="Model Type" 
           :options="isEditing ? modelOptions : availableModelOptions" 
           placeholder="Select Model"
+          :disabled="isEditing"
           required 
         />
 

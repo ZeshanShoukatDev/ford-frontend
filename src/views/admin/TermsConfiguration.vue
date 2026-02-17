@@ -97,6 +97,7 @@
             label="Vehicle Model" 
             :options="editingId ? modelOptions : availableModelOptions" 
             placeholder="Select model"
+            :disabled="editingId"
             required
           />
           <div class="flex flex-col">

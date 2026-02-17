@@ -106,8 +106,6 @@ const isDropdownOpen = ref(false)
 const dropdownRef = ref(null)
 
 const menuItems = [
-  { label: 'Profile', icon: UserCircleIcon, action: 'profile' },
-  { label: 'Settings', icon: Cog6ToothIcon, action: 'settings' },
   { label: 'Logout', icon: ArrowRightOnRectangleIcon, action: 'logout' }
 ]
 
