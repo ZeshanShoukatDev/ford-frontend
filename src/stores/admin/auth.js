@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
         if (!token) return false
         try {
             const decodedToken = jwtDecode(token);
+            user.value = decodedToken.user
             return decodedToken.is_admin ?? decodedToken.is_superuser ?? false
         } catch (e) {
             return false

@@ -66,7 +66,7 @@ const isInventoryPage = computed(() => {
 const currentModelTerm = computed(() => {
   if (!route.params.model) return null;
   const modelParam = route.params.model.toLowerCase();
-  return terms.value.find(t => t.type.toLowerCase() === modelParam);
+  return activeTerms.value.find(t => t.type.toLowerCase() === modelParam);
 });
 
 onMounted(fetchTerms);

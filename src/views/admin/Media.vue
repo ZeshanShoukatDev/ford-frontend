@@ -102,7 +102,6 @@
                   {{ banner.type }}
                 </h3>
               </div>
-              <p class="text-xs text-secondary-500 mt-1 truncate">ID: {{ banner.id }}</p>
             </div>
             
             <div class="flex flex-col gap-4">
@@ -117,9 +116,6 @@
               <div class="grid grid-cols-2 gap-2">
                 <Button variant="outline" size="sm" class="justify-center" @click="editBanner(banner)">
                   <PencilSquareIcon class="w-4 h-4 mr-2" /> Edit
-                </Button>
-                <Button variant="ghost" size="sm" class="justify-center hover:bg-danger-50 hover:text-danger-600" @click="openDeleteModal(banner)">
-                  <TrashIcon class="w-4 h-4" />
                 </Button>
               </div>
               <Button variant="ghost" size="sm" class="justify-center w-full" @click="copyUrl(banner.url)">
