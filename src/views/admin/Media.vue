@@ -148,7 +148,7 @@
               <Input 
                 v-model="uploadForm.url" 
                 placeholder="Paste direct image URL..." 
-                @input="uploadForm.file = null; uploadForm.preview = null"
+                @input="uploadForm.image = null; uploadForm.preview = null"
               />
               <p class="text-[10px] text-secondary-500">Or click the box to upload a file</p>
             </div>
@@ -287,7 +287,7 @@ const uploadForm = ref({
   id: null,
   type: '',
   url: '',
-  file: null,
+  image: null,
   preview: null,
   is_active: true
 })
@@ -333,41 +333,47 @@ const availableModelOptions = computed(() => {
 
 const openUploadModal = () => {
   isEditing.value = false
-  uploadForm.value = { id: null, type: '', url: '', file: null, preview: null, is_active: true }
+  uploadForm.value = { id: null, type: '', url: '', image: null, preview: null, is_active: true }
   isUploadModalOpen.value = true
 }
 
 const handleFileSelect = (e) => {
   const file = e.target.files[0]
   if (file) {
-    uploadForm.value.file = file
+    uploadForm.value.image = file
     uploadForm.value.preview = URL.createObjectURL(file)
     uploadForm.value.url = ''
   }
 }
 
 const handleUpload = async () => {
+  if (!isValidForm.value) return
+  
   isUploading.value = true
   try {
-    if (uploadForm.value.file) {
-      await mediaService.uploadBanner(uploadForm.value.file, uploadForm.value.type)
-    } else {
-      const data = {
-        type: uploadForm.value.type,
-        url: uploadForm.value.url,
-        is_active: uploadForm.value.is_active
-      }
-      if (isEditing.value) {
-        await mediaService.updateBanner(uploadForm.value.id, data)
-      } else {
-        await mediaService.createBanner(data)
-      }
+    const data = {
+      type: uploadForm.value.type,
+      is_active: uploadForm.value.is_active
     }
+
+    if (uploadForm.value.image) {
+      data.image = uploadForm.value.image
+    } else {
+      data.url = uploadForm.value.url
+    }
+
+    if (isEditing.value) {
+      await mediaService.updateBanner(uploadForm.value.id, data)
+    } else {
+      await mediaService.createBanner(data)
+    }
+    
     toast.success(isEditing.value ? 'Banner updated' : 'Banner saved')
     isUploadModalOpen.value = false
     fetchBanners()
   } catch (error) {
-    toast.error('Operation failed')
+    console.error('Upload error:', error)
+    toast.error(error.response?.data?.message || 'Operation failed')
   } finally {
     isUploading.value = false
   }
@@ -375,7 +381,7 @@ const handleUpload = async () => {
 
 const editBanner = (banner) => {
   isEditing.value = true
-  uploadForm.value = { ...banner, file: null, preview: null }
+  uploadForm.value = { ...banner, image: null, preview: null }
   isUploadModalOpen.value = true
 }
 
@@ -426,7 +432,7 @@ const handleImgError = (e) => {
 }
 
 const isValidForm = computed(() => {
-  return uploadForm.value.type && (uploadForm.value.url || uploadForm.value.file)
+  return uploadForm.value.type && (uploadForm.value.url || uploadForm.value.image)
 })
 
 onMounted(fetchBanners)

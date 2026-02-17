@@ -6,17 +6,6 @@ export const mediaService = {
         return response.data
     },
 
-    async uploadBanner(file, type) {
-        const formData = new FormData()
-        formData.append('file', file)
-        formData.append('type', type)
-
-        const response = await api.post('/banners/upload-banner/', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-        return response.data
-    },
-
     async bulkImport(file, format = 'csv') {
         const formData = new FormData()
         formData.append('file', file)
@@ -29,12 +18,38 @@ export const mediaService = {
     },
 
     async createBanner(data) {
-        const response = await api.post('/banners/', data)
+        let payload = data
+        let config = {}
+
+        if (data.image instanceof File) {
+            payload = new FormData()
+            Object.keys(data).forEach(key => {
+                if (data[key] !== null && data[key] !== undefined) {
+                    payload.append(key, data[key])
+                }
+            })
+            config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        }
+
+        const response = await api.post('/banners/', payload, config)
         return response.data
     },
 
     async updateBanner(id, data) {
-        const response = await api.patch(`/banners/${id}/`, data)
+        let payload = data
+        let config = {}
+
+        if (data.image instanceof File) {
+            payload = new FormData()
+            Object.keys(data).forEach(key => {
+                if (data[key] !== null && data[key] !== undefined) {
+                    payload.append(key, data[key])
+                }
+            })
+            config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        }
+
+        const response = await api.patch(`/banners/${id}/`, payload, config)
         return response.data
     },
 
