@@ -29,3 +29,4 @@ package-lock.json
 
 # Optional: Mac-specific file
 .AppleDouble
+config.bat
