@@ -11,9 +11,7 @@
         <!-- Logo & Title -->
         <div class="text-center mb-8">
           <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-primary shadow-lg mb-4">
-            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+            <img src="/fav.png" alt="Ford Logo" class="w-10 h-10" />
           </div>
           <h1 class="text-2xl font-bold text-secondary-900 mb-2">Ford Admin Panel</h1>
           <p class="text-secondary-600">Sign in to manage your dashboard</p>
@@ -39,19 +37,6 @@
             required
           />
 
-          <div class="flex items-center justify-between">
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                v-model="form.remember"
-                type="checkbox"
-                class="rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
-              />
-              <span class="text-sm text-secondary-600">Remember me</span>
-            </label>
-            <a href="#" class="text-sm text-primary-600 hover:text-primary-700 font-medium">
-              Forgot password?
-            </a>
-          </div>
 
           <Button
             type="submit"

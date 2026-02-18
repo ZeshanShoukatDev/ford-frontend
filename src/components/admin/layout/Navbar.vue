@@ -13,9 +13,7 @@
         </button>
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center shadow-md">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+           <img src="/fav.png" alt="Ford Logo"  />
           </div>
           <div>
             <h1 class="text-xl font-bold text-secondary-900">Ford Admin</h1>
