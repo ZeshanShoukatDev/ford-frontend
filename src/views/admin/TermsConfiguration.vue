@@ -231,14 +231,14 @@ const handleSave = async () => {
 
 const handleToggleStatus = async (item) => {
   // Requirement: At least one should be true
-  const activeCount = termsList.value.filter(t => t.is_active).length
+  // const activeCount = termsList.value.filter(t => t.is_active).length
   
-  if (!item.is_active && activeCount === 0) {
-    // If we just deactivated the last one
-    toast.error('At least one term configuration must be active')
-    item.is_active = true // Revert
-    return
-  }
+  // if (!item.is_active && activeCount === 0) {
+  //   // If we just deactivated the last one
+  //   toast.error('At least one term configuration must be active')
+  //   item.is_active = true // Revert
+  //   return
+  // }
 
   try {
     await termsService.updateTerm(item.id, { is_active: item.is_active })
