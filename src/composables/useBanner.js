@@ -6,20 +6,7 @@ export function useBanner() {
     const route = useRoute();
     const store = useFordStore();
 
-    const fallbackSlides = [
-        {
-            image: "/ford_f150.png",
-            alt: "Ford F-150 on display",
-        },
-        {
-            image: "/ford_bronco.jpeg",
-            alt: "Ford Bronco in adventure setting",
-        },
-        {
-            image: "/ford_escape.jpeg",
-            alt: "Ford Escape next gateway car",
-        }
-    ];
+
 
     const slides = computed(() => {
         const activeBanners = store.banners.filter(b => b.is_active);
@@ -32,21 +19,14 @@ export function useBanner() {
             }));
         }
 
-        return fallbackSlides;
+
     });
 
     const getModelImage = (modelName) => {
         const normalizedModel = modelName?.toLowerCase().replace(/\s+/g, '-');
 
-        // Default mapping for hardcoded/fallback local images
-        const defaultImages = {
-            'f-150': '/ford_f150.png',
-            'bronco-sport': '/ford_bronco.jpeg',
-            'escape': '/ford_escape.jpeg'
-        };
-
         const banner = store.getBannerByType(normalizedModel);
-        return banner ? banner.url : defaultImages[normalizedModel];
+        return banner?.url;
     };
 
     return {

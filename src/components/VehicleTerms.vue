@@ -36,12 +36,6 @@ const fetchTerms = async () => {
     terms.value = data;
   } catch (error) {
     console.error("Failed to fetch terms:", error);
-    // Optional: Static fallback if service is unavailable
-    terms.value = [
-      { id: 1, type: "f-150", terms: "$3,250 Retail Bonus Cash on MY 25 F-150 XLT 2.7L (PG #'s 11670,11672). Not all buyers will qualify for Ford Credit financing. 3.9% APR financing for 72 months at $15.60 per month per $1,000 financed regardless of down payment. Residency restrictions apply. For all offers, take new retail delivery from an authorized Ford Dealer’s stock by 3/2/26. See dealer for qualifications and complete details.", is_active: true },
-      { id: 2, type: "bronco-sport", terms: "Security Deposit waived, taxes title and license fees extra. With Equipment Group 200A. Not all buyers will qualify for Ford Credit Red Carpet Lease. Payments may vary, dealer determines price. Residency restrictions apply. Cash due at signing is after $1,000 RCL Customer Cash (PG #50082 ). Lessee responsible for excess wear and mileage over 31,500 miles at $0.20 per mile. Take new retail delivery from authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details. Vehicle shown may have optional equipment not included in payment.", is_active: true },
-      { id: 3, type: "escape", terms: "$4,000 Open Bonus Cash (PG #11510). Residency restrictions apply. For all offers, take new retail delivery from an authorized Ford Dealer's stock by 10/31/25. See dealer for qualifications and complete details", is_active: true }
-    ];
   }
 };
 
