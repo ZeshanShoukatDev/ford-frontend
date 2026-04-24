@@ -71,9 +71,25 @@ const callDealer = () => {
 };
 
 const formatPrice = (price) => {
-  if (!price) return "$0";
-  return "$" + price.toLocaleString();
+  if (
+    price === null ||
+    price === undefined ||
+    price === 0 ||
+    price === "" ||
+    price === "-"
+  ) {
+    return "";
+  }
+
+  const numericPrice = Number(price);
+
+  if (isNaN(numericPrice)) {
+    return "";
+  }
+
+  return "$" + numericPrice.toLocaleString();
 };
+
 </script>
 
 <template>
