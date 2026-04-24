@@ -87,14 +87,17 @@
         </p>
       </div>
 
-      <p
-        id="msrp-price-disclaimer"
-        class="scroll-mt-32 max-w-3xl mx-auto text-xs text-gray-600 text-center leading-relaxed pt-8 border-t border-gray-200 mt-8"
-      >
-        <sup class="font-semibold">1</sup>
-        Actual price and availability depend on approved credit, final trade
-        value, taxes, fees, and dealer terms. See dealer for complete details.
-      </p>
+      <div id="msrp-price-disclaimer" class="scroll-mt-32 max-w-3xl mx-auto mt-10">
+        <div
+          class="rounded-2xl border border-gray-200 bg-gray-50/90 px-5 py-4 sm:px-6 sm:py-5 shadow-sm border-l-4 border-l-[#1C79C4]"
+        >
+          <p class="text-sm text-gray-600 leading-relaxed text-center">
+            <sup class="font-semibold">1</sup>
+            Actual price and availability depend on approved credit, final trade
+            value, taxes, fees, and dealer terms. See dealer for complete details.
+          </p>
+        </div>
+      </div>
     </main>
 
     <Footer />
