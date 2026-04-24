@@ -113,9 +113,17 @@ const formatPrice = (price) => {
         <div class="flex justify-center mb-4">
           <p class="text-xl font-semibold">{{ heading }}</p>
         </div>
-        <div class="flex justify-center mb-4">
+        <div class="flex justify-center items-baseline mb-4">
           <p class="text-4xl font-bold">{{ formatPrice(price) }}</p>
-          <p class="text-xl px-2">MSRP</p>
+          <p class="text-xl px-2">
+            MSRP<sup>
+              <a
+                href="#msrp-price-disclaimer"
+                class="text-[#1C79C4] underline underline-offset-2 hover:text-[#155a94]"
+                aria-label="See price and availability disclaimer"
+                >1</a>
+            </sup>
+          </p>
         </div>
 
         <div class="flex flex-col space-y-2">

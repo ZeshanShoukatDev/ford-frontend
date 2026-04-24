@@ -86,6 +86,15 @@
           <span v-if="selectedLocation"> in {{ selectedLocation }}</span>
         </p>
       </div>
+
+      <p
+        id="msrp-price-disclaimer"
+        class="scroll-mt-32 max-w-3xl mx-auto text-xs text-gray-600 text-center leading-relaxed pt-8 border-t border-gray-200 mt-8"
+      >
+        <sup class="font-semibold">1</sup>
+        Actual price and availability depend on approved credit, final trade
+        value, taxes, fees, and dealer terms. See dealer for complete details.
+      </p>
     </main>
 
     <Footer />
