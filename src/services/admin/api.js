@@ -1,8 +1,16 @@
 import axios from 'axios'
 import { useLoadingStore } from '@/stores/admin/loading'
 
+const normalizeBaseUrl = (value) => {
+    const fallback = 'http://localhost:8000/backend/api'
+    const candidate = value || fallback
+    return candidate.replace(/\/+$/, '')
+}
+
+const baseURL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL)
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/backend/api',
+    baseURL,
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
@@ -49,7 +57,7 @@ api.interceptors.response.use(
 
                 if (refreshToken) {
                     try {
-                        const response = await axios.post(`${api.defaults.baseURL}/token/refresh/`, {
+                        const response = await axios.post(`${baseURL}/token/refresh/`, {
                             refresh: refreshToken
                         })
 

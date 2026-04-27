@@ -222,7 +222,11 @@ const handleSave = async () => {
     isModalOpen.value = false
     fetchTerms()
   } catch (error) {
-    toast.error('Failed to save terms')
+    const message = error?.response?.data?.detail
+      || error?.response?.data?.message
+      || (typeof error?.response?.data === 'string' ? error.response.data : null)
+      || 'Failed to save terms'
+    toast.error(message)
   } finally {
     isSaving.value = false
   }
@@ -245,7 +249,11 @@ const handleToggleStatus = async (item) => {
     toast.success(`${item.type.toUpperCase()} status updated`)
   } catch (error) {
     item.is_active = !item.is_active // Revert on error
-    toast.error('Failed to update status')
+    const message = error?.response?.data?.detail
+      || error?.response?.data?.message
+      || (typeof error?.response?.data === 'string' ? error.response.data : null)
+      || 'Failed to update status'
+    toast.error(message)
   }
 }
 
